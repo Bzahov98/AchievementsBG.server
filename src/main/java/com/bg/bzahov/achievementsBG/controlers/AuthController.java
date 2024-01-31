@@ -1,14 +1,20 @@
 package com.bg.bzahov.achievementsBG.controlers;
 
-import com.bg.bzahov.achievementsBG.dto.RegisterDto;
+import com.bg.bzahov.achievementsBG.dto.auth.AuthResponseDTO;
+import com.bg.bzahov.achievementsBG.dto.auth.LoginDto;
+import com.bg.bzahov.achievementsBG.dto.auth.RegisterDto;
 import com.bg.bzahov.achievementsBG.model.Role;
 import com.bg.bzahov.achievementsBG.model.UserEntity;
 import com.bg.bzahov.achievementsBG.repositories.RoleRepository;
 import com.bg.bzahov.achievementsBG.repositories.UserRepository;
+import com.bg.bzahov.achievementsBG.security.jwt.JWTGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,28 +31,28 @@ public class AuthController {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
-//    private JWTGenerator jwtGenerator;
+    private JWTGenerator jwtGenerator;
 
     @Autowired
     public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository,
-                          RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+                          RoleRepository roleRepository, PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
-//        this.jwtGenerator = jwtGenerator;
+        this.jwtGenerator = jwtGenerator;
     }
 
-//    @PostMapping("login")
-//    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto){
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        loginDto.getUsername(),
-//                        loginDto.getPassword()));
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        String token = jwtGenerator.generateToken(authentication);
-//        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
-//    }
+    @PostMapping("login")
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto){
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginDto.getUsername(),
+                        loginDto.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtGenerator.generateToken(authentication);
+        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+    }
 
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
