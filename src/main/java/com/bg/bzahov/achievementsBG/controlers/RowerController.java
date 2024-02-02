@@ -1,6 +1,7 @@
 package com.bg.bzahov.achievementsBG.controlers;
 
 import com.bg.bzahov.achievementsBG.model.Rower;
+import com.bg.bzahov.achievementsBG.security.SecurityConstants;
 import com.bg.bzahov.achievementsBG.services.RowerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/rowers")
+@RequestMapping("api/" + SecurityConstants.API_VERSION + "/rowers")
 @AllArgsConstructor
 //@PreAuthorize("hasAuthority('ADMIN') or true")
 public class RowerController {

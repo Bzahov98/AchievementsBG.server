@@ -1,12 +1,13 @@
 package com.bg.bzahov.achievementsBG.controlers;
 
 import com.bg.bzahov.achievementsBG.model.RowerIDCard;
+import com.bg.bzahov.achievementsBG.security.SecurityConstants;
 import com.bg.bzahov.achievementsBG.services.RowerIDCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/rowers/{rowerID}/id_cards")
+@RequestMapping("api/" + SecurityConstants.API_VERSION + "/rowers/{rowerID}/id_cards")
 //@PreAuthorize("hasAuthority('ADMIN') or true")
 public class RowerIDCardController {
 

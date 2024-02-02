@@ -12,7 +12,7 @@ import java.util.Date;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RowerNotFoundException.class)
-    public ResponseEntity<ErrorObject> handleReviewNotFoundException(RowerNotFoundException ex, WebRequest request) {
+    public ResponseEntity<ErrorObject> handleRowerNotFoundException(RowerNotFoundException ex, WebRequest request) {
 
         ErrorObject errorObject = new ErrorObject();
 

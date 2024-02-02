@@ -7,6 +7,7 @@ import com.bg.bzahov.achievementsBG.model.Role;
 import com.bg.bzahov.achievementsBG.model.UserEntity;
 import com.bg.bzahov.achievementsBG.repositories.RoleRepository;
 import com.bg.bzahov.achievementsBG.repositories.UserRepository;
+import com.bg.bzahov.achievementsBG.security.SecurityConstants;
 import com.bg.bzahov.achievementsBG.security.jwt.JWTGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collections;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/" + SecurityConstants.API_VERSION + "/auth")
 public class AuthController {
 
     private AuthenticationManager authenticationManager;
@@ -44,7 +45,7 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto){
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDto.getUsername(),

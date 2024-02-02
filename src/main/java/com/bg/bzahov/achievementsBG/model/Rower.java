@@ -1,59 +1,45 @@
 package com.bg.bzahov.achievementsBG.model;
 
-//import jakarta.persistence.*;
-//import jakarta.validation.constraints.NotBlank;
-//import jakarta.validation.constraints.NotNull;
-
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity
-@Table//
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-@EqualsAndHashCode
-@Getter//
-@Setter//
-@ToString//
+@NoArgsConstructor
+@Builder
+@Entity
 public class Rower {
-
     @Id
-    @SequenceGenerator(
-            name = "rower_sequence",
-            sequenceName = "rower_sequence",
-            allocationSize = 1
-    )
-
-    @GeneratedValue(
-            generator = "rower_sequence",
-            strategy = GenerationType.SEQUENCE)
-    private Long id;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     @NotBlank
     @Column(nullable = false)
     private String name;
-
-    @Column(nullable = true)
-    private Integer age;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Gender gender;
 
-//    public Rower(Long id, String name, Integer age, Gender gender) {
-//        this.id = id;
-//        this.name = name;
-//        this.age = age;
-//        this.gender = gender;
-//    }
-    public Rower(Long id, String name, Integer age, String gender) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.gender = Gender.valueOf(gender);
-    }
+    @Column(nullable = true)
+    private String age;
+
+    @NotBlank
+    @Column(nullable = true)
+    private String yearOfBirth;
+
+    @OneToMany(mappedBy = "rowerID", cascade = CascadeType.REMOVE)
+    private List<RowerIDCard> rowerIDCards = new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userID")
+    private UserEntity userID;
 }

@@ -16,20 +16,12 @@ import javax.persistence.*;
 public class RowerIDCard {
 
     @Id
-    @SequenceGenerator(
-            name = "rowerID_sequence",
-            sequenceName = "rower_sequence",
-            allocationSize = 1
-    )
-
-    @GeneratedValue(
-            generator = "rowerID_sequence",
-            strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
-    private Rower rower;
+    @JoinColumn(name = "rowerID",nullable = false)
+    private Rower rowerID;
 
     @Column( unique = true, nullable = false)
     private String cardNumber;

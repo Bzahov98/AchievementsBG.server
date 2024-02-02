@@ -21,7 +21,7 @@ public class RowerIDCardService {
 
     public RowerIDCard createRowerIDCard(Long rowerID, RowerIDCard rowerIDCard) {
         Rower rower = rowerRepository.findById(rowerID).orElseThrow(() -> new RowerNotFoundException(rowerID.toString()));
-        rowerIDCard.setRower(rower);
+        rowerIDCard.setRowerID(rower);
         return rowerIDCardRepository.save(rowerIDCard);
     }
 
