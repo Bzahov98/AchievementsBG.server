@@ -21,7 +21,8 @@ public class RowerService {
     }
 
     public Rower getRowerById(Long id) {
-        return rowerRepository.findById(id).orElseThrow(() -> new RowerNotFoundException(id.toString()));
+        return rowerRepository.findById(id)
+                .orElseThrow(() -> new RowerNotFoundException(id.toString()));
     }
 
     public Rower updateRower(Long id, Rower rower) {
@@ -43,5 +44,8 @@ public class RowerService {
 
     public List<Rower> getAllRowers() {
         return rowerRepository.findAll();
+    }
+    public List<Rower> getAllRowersByYear(String yearOfBirth) {
+        return rowerRepository.findAllByYearOfBirth(yearOfBirth);
     }
 }

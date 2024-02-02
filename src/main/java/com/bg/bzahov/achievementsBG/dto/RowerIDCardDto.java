@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ReviewDto {
-    private int id;
-    private String title;
-    private String content;
-    private int stars;
+public class RowerIDCardDto {
+    private Long id;
+    private Long rowerID;
+    private String cardNumber;
 }

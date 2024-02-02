@@ -1,9 +1,5 @@
 package com.bg.bzahov.achievementsBG.dto.auth;
 
-import lombok.Data;
-
-@Data
-public class RegisterDto {
-    private String username;
-    private String password;
+public class RegisterDto extends BasicAuthDto {
+//    private String email;
 }

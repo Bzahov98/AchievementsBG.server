@@ -1,0 +1,51 @@
+###
+###
+GET http://localhost:3000/api/v1/rowers/1
+Content-Type: application/json
+
+###
+PUT http://localhost:3000/api/v1/rowers/update/3
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiemFob3YxIiwiaWF0IjoxNzA2OTEyMzUyLCJleHAiOjE3MDY5MTI0MjJ9.PL4dg-MZChjatn8R2ecU-q7wehHWv1j9nBkEDs5YATXkWQ2D94e58PdZLGqt2DDKOSFhr4sFKEYAHm5AvLe9vA
+
+{
+  "name": "Silviq Zahova",
+  "gender": "FEMALE",
+  "age": "25",
+  "yearOfBirth": "1998"
+}
+###
+POST http://localhost:3000/api/v1/rowers
+Content-Type: application/json
+
+{
+  "name": "RowerName",
+  "yearOfBirth": "1990"
+}
+
+###
+GET http://localhost:3000/api/v1/rowers/1
+Content-Type: application/json
+
+###
+GET http://localhost:3000/api/v1/rowers
+Content-Type: application/json
+
+###
+GET http://localhost:3000/api/v1/rowers/ByYearOfBirth/1990
+Content-Type: application/json
+
+###
+PUT http://localhost:3000/api/v1/rowers/1
+Content-Type: application/json
+
+{
+  "name": "UpdatedRowerName",
+  "yearOfBirth": "1991"
+}
+
+###
+DELETE http://localhost:3000/api/v1/rowers/1
+Content-Type: application/json
+
+###

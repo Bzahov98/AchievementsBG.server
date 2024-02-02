@@ -28,14 +28,19 @@ public class RowerController {
         return rowerService.getRowerById(id);
     }
 
+    @PutMapping("update/{id}")
+    public Rower updateRower(@PathVariable("id") Long id, @RequestBody Rower rower) {
+        return rowerService.updateRower(id, rower);
+    }
+
     @GetMapping
-    public List<Rower> getAllStudents() {
+    public List<Rower> getAllRowers() {
         return rowerService.getAllRowers();
     }
 
-    @PutMapping("/{id}")
-    public Rower updateRower(@PathVariable("id") Long id, @RequestBody Rower rower) {
-        return rowerService.updateRower(id, rower);
+    @GetMapping("/ByYearOfBirth/{yearOfBirth}")
+    public List<Rower> getAllRowersByYearOfBirth(@PathVariable String yearOfBirth) {
+        return rowerService.getAllRowersByYear(String.valueOf(yearOfBirth));
     }
 
     @DeleteMapping("/{id}")

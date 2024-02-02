@@ -9,6 +9,7 @@ import com.bg.bzahov.achievementsBG.repositories.RowerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 @AllArgsConstructor
 
 @Service
@@ -20,19 +21,24 @@ public class RowerIDCardService {
     private RowerRepository rowerRepository;
 
     public RowerIDCard createRowerIDCard(Long rowerID, RowerIDCard rowerIDCard) {
-        Rower rower = rowerRepository.findById(rowerID).orElseThrow(() -> new RowerNotFoundException(rowerID.toString()));
+        Rower rower = rowerRepository.findById(rowerID)
+                .orElseThrow(
+                        () -> new RowerNotFoundException(rowerID.toString())
+                );
         rowerIDCard.setRowerID(rower);
         return rowerIDCardRepository.save(rowerIDCard);
     }
 
     public RowerIDCard getRowerIDCardById(Long id) {
-        return rowerIDCardRepository.findById(id).orElseThrow(() -> {
-            return new RowerIDCardNotFoundException(id.toString());
-        });
+        return rowerIDCardRepository.findById(id)
+                .orElseThrow(
+                        () -> new RowerIDCardNotFoundException(id.toString())
+                );
     }
 
     public RowerIDCard updateRowerIDCard(Long id, RowerIDCard rowerIDCard) {
         RowerIDCard existingRowerIDCard = getRowerIDCardById(id);
+
         existingRowerIDCard.setCardNumber(rowerIDCard.getCardNumber());
         return rowerIDCardRepository.save(existingRowerIDCard);
     }

@@ -1,5 +1,6 @@
 package com.bg.bzahov.achievementsBG.dto;
 
+import com.bg.bzahov.achievementsBG.model.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,8 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PokemonDto {
+public class RowerDto {
     private int id;
     private String name;
-    private String type;
+    private Gender gender;
+    private String age;
+    private String yearOfBirth;
 }
