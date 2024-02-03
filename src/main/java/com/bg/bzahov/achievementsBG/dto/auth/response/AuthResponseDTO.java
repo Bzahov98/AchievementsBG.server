@@ -1,4 +1,4 @@
-package com.bg.bzahov.achievementsBG.dto.auth;
+package com.bg.bzahov.achievementsBG.dto.auth.response;
 
 import lombok.Data;
 

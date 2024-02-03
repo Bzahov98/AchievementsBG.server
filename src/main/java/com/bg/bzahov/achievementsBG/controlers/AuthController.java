@@ -1,6 +1,6 @@
 package com.bg.bzahov.achievementsBG.controlers;
 
-import com.bg.bzahov.achievementsBG.dto.auth.AuthResponseDTO;
+import com.bg.bzahov.achievementsBG.dto.auth.response.AuthResponseDTO;
 import com.bg.bzahov.achievementsBG.dto.auth.BasicAuthDto;
 import com.bg.bzahov.achievementsBG.dto.auth.LoginDto;
 import com.bg.bzahov.achievementsBG.dto.auth.RegisterDto;

@@ -1,6 +1,7 @@
 package com.bg.bzahov.achievementsBG.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,7 +18,7 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @NotBlank(message = "Username must not be blank")
     private String username;
@@ -29,9 +30,17 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "rowerID")
-    private Rower rowerID;
+    //    @JsonManagedReference
+//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "rowerID")
+//    @OneToOne(mappedBy = "userID", cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY)
+//    private Rower rowerID;
+
+
+    @OneToOne(mappedBy = "userOfRowerID", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Rower rower;
 }
 
 /*@Entity

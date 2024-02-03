@@ -1,5 +1,6 @@
 package com.bg.bzahov.achievementsBG.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +20,7 @@ import java.util.List;
 public class Rower {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @NotBlank
     @Column(nullable = false)
     private String name;
@@ -39,7 +40,12 @@ public class Rower {
     @OneToMany(mappedBy = "rowerID", cascade = CascadeType.REMOVE)
     private List<RowerIDCard> rowerIDCards = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userID")
-    private UserEntity userID;
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "userID")
+//    private UserEntity userID;
+
+    @OneToOne
+    @JoinColumn(name = "userOfRowerID")
+    @JsonManagedReference
+    private UserEntity userOfRowerID;
 }
