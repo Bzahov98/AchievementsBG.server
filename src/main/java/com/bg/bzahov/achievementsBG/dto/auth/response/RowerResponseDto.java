@@ -19,8 +19,8 @@ public class RowerResponseDto {
     private Long id;
     private String name;
     private Gender gender;
-    private String age;
-    private String yearOfBirth;
+    private int age;
+    private int yearOfBirth;
     private String username; // from UserEntity
     private List<RowerIDCardDto> rowerIDCards; // new field
 

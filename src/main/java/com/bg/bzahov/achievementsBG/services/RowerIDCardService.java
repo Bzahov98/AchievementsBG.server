@@ -26,7 +26,7 @@ public class RowerIDCardService {
     public RowerIDCard createRowerIDCard(Long rowerID, RowerIDCard rowerIDCard) {
         Rower rower = rowerRepository.findById(rowerID)
                 .orElseThrow(
-                        () -> new RowerNotFoundException(rowerID.toString())
+                        () -> new RowerNotFoundException("RowerID: " + rowerID.toString())
                 );
         rowerIDCard.setRower(rower);
         return rowerIDCardRepository.save(rowerIDCard);
@@ -35,7 +35,7 @@ public class RowerIDCardService {
     public RowerIDCard getRowerIDCardById(Long id) {
         return rowerIDCardRepository.findById(id)
                 .orElseThrow(
-                        () -> new RowerIDCardNotFoundException("Id Card: " + id.toString())
+                        () -> new RowerIDCardNotFoundException("Id Card: " + id)
                 );
     }
 
@@ -46,7 +46,7 @@ public class RowerIDCardService {
 
     public List<RowerIDCard> getAllRowerIDCardForRowerID(Long rowerId) {
         return rowerIDCardRepository.findAllByRowerId(rowerId)
-                .orElseThrow(() -> new RowerIDCardNotFoundException("RowerID: " + rowerId.toString()));
+                .orElseThrow(() -> new RowerIDCardNotFoundException("RowerID: " + rowerId));
     }
 //    public RowerIDCard getAllRowerIDCardByRowerID(Long rowerId ) {
 //        return rowerRepository.findByRowerId(rowerId)

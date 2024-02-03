@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ErrorObject> handleUserNotFoundException(UsernameNotFoundException ex, WebRequest request){
         ErrorObject errorObject = new ErrorObject();
-        errorObject.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        errorObject.setStatusCode(HttpStatus.NOT_FOUND.value());
         errorObject.setMessage("User:"+ ex.getMessage());
         errorObject.setTimestamp(new Date());
         return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.BAD_REQUEST);
@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
         ErrorObject errorObject = new ErrorObject();
 
         errorObject.setStatusCode(HttpStatus.NOT_FOUND.value());
-        errorObject.setMessage(ex.getMessage() + " for request:" + request.getDescription(true));
+        errorObject.setMessage(ex.getMessage() + "| For request:" + request.getDescription(false));
         errorObject.setTimestamp(new Date());
 
         return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.NOT_FOUND);

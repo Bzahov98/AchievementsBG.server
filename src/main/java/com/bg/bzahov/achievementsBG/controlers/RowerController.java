@@ -1,6 +1,7 @@
 package com.bg.bzahov.achievementsBG.controlers;
 
 import com.bg.bzahov.achievementsBG.dto.auth.response.RowerResponseDto;
+import com.bg.bzahov.achievementsBG.exceptions.RowerNotFoundException;
 import com.bg.bzahov.achievementsBG.model.Rower;
 import com.bg.bzahov.achievementsBG.security.SecurityConstants;
 import com.bg.bzahov.achievementsBG.services.RowerIDCardService;
@@ -31,6 +32,9 @@ public class RowerController {
     @GetMapping("/{id}")
     public ResponseEntity<RowerResponseDto> getRowerById(@PathVariable("id") Long id) {
         Rower rower = rowerService.getRowerById(id);
+        if(rower == null) {
+            throw new RowerNotFoundException("RowerID: " + id.toString());
+        }
 //        List<RowerIDCard> rowerIDCard = rowerService.getRowerIDCardByRowerID(id);
 //        rower.setRowerIDCards(List.of(rowerIDCard));
         return new ResponseEntity<>(

@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -17,10 +19,11 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
-public class  Rower {
+public class Rower {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotBlank
     @Column(nullable = false)
     private String name;
@@ -31,11 +34,12 @@ public class  Rower {
     private Gender gender;
 
     @Column(nullable = true)
-    private String age;
+    private int age;
 
-    @NotBlank
+    @Min(1900)
+    @Max(2100)
     @Column(nullable = true)
-    private String yearOfBirth;
+    private int yearOfBirth;
 
 //    @OneToMany(mappedBy = "rowerID", cascade = CascadeType.REMOVE)
 //    private List<RowerIDCard> rowerIDCards = new ArrayList<>();
