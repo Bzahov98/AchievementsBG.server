@@ -38,10 +38,9 @@ public class RowerIDCardService {
                 );
     }
 
-    public List<RowerIDCard> getAllRowerIDCardByRowerID(Long rowerId) {
-        Rower rower = rowerRepository.findById(rowerId)
-                .orElseThrow(() -> new RowerNotFoundException(rowerId.toString()));
-        return rower.getRowerIDCards();
+    public List<RowerIDCard> getAllRowerIDCardForRowerID(Long rowerId) {
+        return rowerIDCardRepository.findAllByRowerId(rowerId)
+                .orElseThrow(() -> new RowerIDCardNotFoundException(rowerId.toString()));
     }
 //    public RowerIDCard getAllRowerIDCardByRowerID(Long rowerId ) {
 //        return rowerRepository.findByRowerId(rowerId)
