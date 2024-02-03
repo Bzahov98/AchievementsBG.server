@@ -1,5 +1,6 @@
 package com.bg.bzahov.achievementsBG.exceptions;
 
+import com.bg.bzahov.achievementsBG.dto.auth.response.ErrorObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -80,5 +81,13 @@ public class GlobalExceptionHandler {
         errorObject.setMessage("IllegalStateException: " + message + " for request:" + request.toString());
         errorObject.setTimestamp(new Date());
         return new ResponseEntity<>(errorObject, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @ExceptionHandler(ValidationFailedException.class)
+    public ResponseEntity<ErrorObject> handleValidationFailedException(String message, WebRequest request) {
+        ErrorObject errorObject = new ErrorObject();
+        errorObject.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        errorObject.setMessage("IllegalStateException: " + message + " for request:" + request.toString());
+        errorObject.setTimestamp(new Date());
+        return new ResponseEntity<>(errorObject, HttpStatus.BAD_REQUEST);
     }
 }

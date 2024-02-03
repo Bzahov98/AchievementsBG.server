@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class RowerIDCardNotFoundException extends RuntimeException {
 
     public RowerIDCardNotFoundException(String msg) {
-        super(msg);
+        super("Rower ID Card can't be found with data you provided: " + msg);
     }
 
     public RowerIDCardNotFoundException(Long msg) {
