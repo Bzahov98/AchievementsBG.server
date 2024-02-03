@@ -10,6 +10,10 @@ import java.util.Optional;
 @Repository
 public interface RowerIDCardRepository extends JpaRepository<RowerIDCard, Long> {
     @NotNull
-    Optional<RowerIDCard> findById(@NotNull Long id);
+    Optional<RowerIDCard> findById(@NotNull Long id);    @NotNull
+
+    Optional<RowerIDCard> findByRowerId(@NotNull Long rowerId);
+    Optional<RowerIDCard> findByCardNumber(@NotNull String cardNumber);
+
     void deleteById(@NotNull Long id);
 }

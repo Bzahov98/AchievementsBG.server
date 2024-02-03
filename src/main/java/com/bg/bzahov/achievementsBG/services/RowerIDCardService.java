@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @AllArgsConstructor
 
 @Service
@@ -25,7 +27,7 @@ public class RowerIDCardService {
                 .orElseThrow(
                         () -> new RowerNotFoundException(rowerID.toString())
                 );
-        rowerIDCard.setRowerID(rower);
+        rowerIDCard.setRower(rower);
         return rowerIDCardRepository.save(rowerIDCard);
     }
 
@@ -35,6 +37,18 @@ public class RowerIDCardService {
                         () -> new RowerIDCardNotFoundException(id.toString())
                 );
     }
+
+    public List<RowerIDCard> getAllRowerIDCardByRowerID(Long rowerId) {
+        Rower rower = rowerRepository.findById(rowerId)
+                .orElseThrow(() -> new RowerNotFoundException(rowerId.toString()));
+        return rower.getRowerIDCards();
+    }
+//    public RowerIDCard getAllRowerIDCardByRowerID(Long rowerId ) {
+//        return rowerRepository.findByRowerId(rowerId)
+//                .orElseThrow(
+//                        () -> new RowerIDCardNotFoundException(rowerId.toString())
+//                );
+//    }
 
     public RowerIDCard updateRowerIDCard(Long id, RowerIDCard rowerIDCard) {
         RowerIDCard existingRowerIDCard = getRowerIDCardById(id);

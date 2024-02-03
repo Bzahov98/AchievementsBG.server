@@ -1,10 +1,14 @@
 package com.bg.bzahov.achievementsBG.controlers;
 
+import com.bg.bzahov.achievementsBG.dto.auth.response.RowerResponseDto;
 import com.bg.bzahov.achievementsBG.model.Rower;
 import com.bg.bzahov.achievementsBG.security.SecurityConstants;
+import com.bg.bzahov.achievementsBG.services.RowerIDCardService;
 import com.bg.bzahov.achievementsBG.services.RowerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +21,7 @@ public class RowerController {
 
     @Autowired
     private RowerService rowerService;
+    private RowerIDCardService cardService;
 
     @PostMapping
     public Rower createRower(@RequestBody Rower rower) {
@@ -24,8 +29,14 @@ public class RowerController {
     }
 
     @GetMapping("/{id}")
-    public Rower getRowerById(@PathVariable("id") Long id) {
-        return rowerService.getRowerById(id);
+    public ResponseEntity<RowerResponseDto> getRowerById(@PathVariable("id") Long id) {
+        Rower rower = rowerService.getRowerById(id);
+//        List<RowerIDCard> rowerIDCard = rowerService.getRowerIDCardByRowerID(id);
+//        rower.setRowerIDCards(List.of(rowerIDCard));
+        return new ResponseEntity<>(
+                RowerResponseDto.fromRower(rower),
+                HttpStatus.OK
+        );
     }
 
     @PutMapping("update/{id}")

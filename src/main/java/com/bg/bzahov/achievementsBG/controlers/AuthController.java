@@ -1,6 +1,6 @@
 package com.bg.bzahov.achievementsBG.controlers;
 
-import com.bg.bzahov.achievementsBG.dto.auth.response.AuthResponseDTO;
+import com.bg.bzahov.achievementsBG.dto.auth.response.AuthResponseDto;
 import com.bg.bzahov.achievementsBG.dto.auth.BasicAuthDto;
 import com.bg.bzahov.achievementsBG.dto.auth.LoginDto;
 import com.bg.bzahov.achievementsBG.dto.auth.RegisterDto;
@@ -19,10 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
@@ -47,10 +44,10 @@ public class AuthController {
     }
 
     @PostMapping(value = "login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto) {
 //        if (!getExistsByUsername(loginDto)) {
 //            throw new UsernameNotFoundException("Wrong Credentials!");
-////            return new ResponseEntity<>(new AuthResponseDTO("Wrong Credentials!",true), HttpStatus.FORBIDDEN);
+////            return new ResponseEntity<>(new AuthResponseDto("Wrong Credentials!",true), HttpStatus.FORBIDDEN);
 //        }
         UsernamePasswordAuthenticationToken authentication1 = new UsernamePasswordAuthenticationToken(
                 loginDto.getUsername(),
@@ -61,7 +58,7 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
-        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+        return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
     }
 
     @PostMapping("register")
@@ -80,6 +77,11 @@ public class AuthController {
         userRepository.save(user);
 
         return new ResponseEntity<>("User registered success!", HttpStatus.OK);
+    }
+
+    @GetMapping("roles")
+    public ResponseEntity<?> getRoles() {
+        return new ResponseEntity<>(roleRepository.findAll(), HttpStatus.OK);
     }
 
     private Boolean getExistsByUsername(BasicAuthDto dto) {

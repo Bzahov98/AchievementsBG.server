@@ -1,5 +1,6 @@
 package com.bg.bzahov.achievementsBG.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +10,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -37,8 +37,12 @@ public class Rower {
     @Column(nullable = true)
     private String yearOfBirth;
 
-    @OneToMany(mappedBy = "rowerID", cascade = CascadeType.REMOVE)
-    private List<RowerIDCard> rowerIDCards = new ArrayList<>();
+//    @OneToMany(mappedBy = "rowerID", cascade = CascadeType.REMOVE)
+//    private List<RowerIDCard> rowerIDCards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "rower", cascade = CascadeType.REMOVE)
+    @JsonIgnore // Add this annotation to break the circular reference
+    private List<RowerIDCard> rowerIDCards;
 
 //    @OneToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "userID")

@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/v1/auth/**").permitAll()
+                .antMatchers("/api/v1/auth/roles").authenticated()
 //                .antMatchers("/api/v1/**").permitAll()
                 .antMatchers("/api/v1/rowers/**").authenticated()
                 .and()

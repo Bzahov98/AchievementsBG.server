@@ -19,9 +19,9 @@ public class RowerIDCard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rowerID",nullable = false)
-    private Rower rowerID;
+    @ManyToOne
+    @JoinColumn(name = "rowerId")
+    private Rower rower;
 
     @Column( unique = true, nullable = false)
     private String cardNumber;
