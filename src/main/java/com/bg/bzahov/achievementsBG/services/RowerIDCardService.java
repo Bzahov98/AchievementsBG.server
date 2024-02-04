@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 
@@ -26,12 +27,21 @@ public class RowerIDCardService {
     public List<RowerIDCard> getAllRowerIDCards() {
         return rowerIDCardRepository.findAll();
     }
+
     public RowerIDCard createRowerIDCard(Long rowerID, RowerIDCard rowerIDCard) {
         Rower rower = rowerRepository.findById(rowerID)
-                .orElseThrow(
-                        () -> new RowerNotFoundException("RowerID: " + rowerID.toString())
-                );
+                .orElseThrow(() -> new RowerNotFoundException("RowerID: " + rowerID.toString()));
+
+        // Check if a RowerIDCard with the same card_number already exists
+        Optional<RowerIDCard> existingCard = rowerIDCardRepository.findByCardNumber(rowerIDCard.getCardNumber());
+        if (existingCard.isPresent()) {
+            throw new ValidationFailedException("A RowerIDCard with card_number " + rowerIDCard.getCardNumber() + " already exists.");
+        }
+
+        rower.getRowerIDCards().removeIf(card -> card.getCardNumber() == null || card.getCardNumber().equals(rowerIDCard.getCardNumber()));
+        rower.getRowerIDCards().add(rowerIDCard);
         rowerIDCard.setRower(rower);
+        rowerRepository.save(rower);
         return rowerIDCardRepository.save(rowerIDCard);
     }
 

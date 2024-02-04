@@ -49,9 +49,11 @@ public class RowerIDCardController {
      * @param rowerIDCard The RowerIDCard entity to be created.
      * @return The created RowerIDCard entity.
      */
-    @PostMapping("/rowers/{rowerID}/id_cards")
-    public RowerIDCard createRowerIDCard(@PathVariable Long rowerID, @RequestBody RowerIDCard rowerIDCard) {
-        return rowerIDCardService.createRowerIDCard(rowerID, rowerIDCard);
+    @PostMapping("/rowers/id_cards")
+    public RowerIDCardDto createRowerIDCard(@RequestParam() Long rowerID, @RequestBody RowerIDCard rowerIDCard) {
+        return RowerIDCardDto.fromRowerIDCard(
+                rowerIDCardService.createRowerIDCard(rowerID, rowerIDCard)
+        );
     }
 
     // Update rowerIDCard by cardNumber

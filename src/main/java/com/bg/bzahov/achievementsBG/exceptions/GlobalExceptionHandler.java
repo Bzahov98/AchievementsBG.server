@@ -16,10 +16,10 @@ import java.util.Date;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<ErrorObject> handleUserNotFoundException(UsernameNotFoundException ex, WebRequest request){
+    public ResponseEntity<ErrorObject> handleUserNotFoundException(UsernameNotFoundException ex, WebRequest request) {
         ErrorObject errorObject = new ErrorObject();
         errorObject.setStatusCode(HttpStatus.NOT_FOUND.value());
-        errorObject.setMessage("User:"+ ex.getMessage());
+        errorObject.setMessage("User:" + ex.getMessage());
         errorObject.setTimestamp(new Date());
         return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.BAD_REQUEST);
     }
@@ -48,6 +48,34 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ValidationFailedException.class)
+    public ResponseEntity<ErrorObject> handleValidationFailedException(String message, WebRequest request) {
+        ErrorObject errorObject = new ErrorObject();
+        errorObject.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        errorObject.setMessage(message + " | for request:" + request.toString());
+        errorObject.setTimestamp(new Date());
+        return new ResponseEntity<>(errorObject, HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
+    public ResponseEntity<ErrorObject> handleCredentialsNotFoundException(String message, WebRequest request) {
+        ErrorObject errorObject = new ErrorObject();
+        errorObject.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        errorObject.setMessage("CredentialsNotFound: " + message);
+        errorObject.setTimestamp(new Date());
+        return new ResponseEntity<>(errorObject, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErrorObject> handleIllegalStateExceptionException(String message, WebRequest request) {
+        ErrorObject errorObject = new ErrorObject();
+        errorObject.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        errorObject.setMessage("IllegalStateException: " + message + " for request:" + request.toString());
+        errorObject.setTimestamp(new Date());
+        return new ResponseEntity<>(errorObject, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(IOException.class)
     public ResponseEntity<ErrorObject> handleIOException(String message, WebRequest request) {
         ErrorObject errorObject = new ErrorObject();
@@ -64,30 +92,5 @@ public class GlobalExceptionHandler {
         errorObject.setMessage(message);
         errorObject.setTimestamp(new Date());
         return new ResponseEntity<>(errorObject, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-    public ResponseEntity<ErrorObject> handleCredentialsNotFoundException(String message, WebRequest request) {
-        ErrorObject errorObject = new ErrorObject();
-        errorObject.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        errorObject.setMessage("CredentialsNotFound: " + message);
-        errorObject.setTimestamp(new Date());
-        return new ResponseEntity<>(errorObject, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<ErrorObject> handleIllegalStateExceptionException(String message, WebRequest request) {
-        ErrorObject errorObject = new ErrorObject();
-        errorObject.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        errorObject.setMessage("IllegalStateException: " + message + " for request:" + request.toString());
-        errorObject.setTimestamp(new Date());
-        return new ResponseEntity<>(errorObject, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-    @ExceptionHandler(ValidationFailedException.class)
-    public ResponseEntity<ErrorObject> handleValidationFailedException(String message, WebRequest request) {
-        ErrorObject errorObject = new ErrorObject();
-        errorObject.setStatusCode(HttpStatus.BAD_REQUEST.value());
-        errorObject.setMessage("IllegalStateException: " + message + " for request:" + request.toString());
-        errorObject.setTimestamp(new Date());
-        return new ResponseEntity<>(errorObject, HttpStatus.BAD_REQUEST);
     }
 }
