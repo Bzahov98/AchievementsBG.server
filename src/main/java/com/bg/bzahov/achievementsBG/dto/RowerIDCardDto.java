@@ -21,12 +21,19 @@ public class RowerIDCardDto {
 
     public static RowerIDCardDto fromRowerIDCard(RowerIDCard rowerIDCard) {
         Rower rower = rowerIDCard.getRower();
-        return RowerIDCardDto.builder()
-                .id(rowerIDCard.getId())
-                .cardNumber(rowerIDCard.getCardNumber())
-                .rowerName(rower.getName())
-                .rowerGender(rower.getGender().toString())
-                .rowerAge(String.valueOf(rower.getAge()))
-                .build();
+        if (rower != null) {
+            return RowerIDCardDto.builder()
+                    .id(rowerIDCard.getId())
+                    .cardNumber(rowerIDCard.getCardNumber())
+                    .rowerName(rower.getName())
+                    .rowerGender(rower.getGender().toString())
+                    .rowerAge(String.valueOf(rower.getAge()))
+                    .build();
+        } else {
+            return RowerIDCardDto.builder()
+                    .id(rowerIDCard.getId())
+                    .cardNumber(rowerIDCard.getCardNumber())
+                    .build();
+        }
     }
 }
