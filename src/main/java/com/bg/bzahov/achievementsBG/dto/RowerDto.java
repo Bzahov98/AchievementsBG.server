@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RowerDto {
-    private int id;
+    private Long id;
     private String name;
     private Gender gender;
-    private String age;
-    private String yearOfBirth;
+    private int age;
+    private int yearOfBirth;
 }

@@ -3,6 +3,7 @@ package com.bg.bzahov.achievementsBG.services;
 import com.bg.bzahov.achievementsBG.Utils;
 import com.bg.bzahov.achievementsBG.exceptions.RowerNotFoundException;
 import com.bg.bzahov.achievementsBG.model.Rower;
+import com.bg.bzahov.achievementsBG.repositories.RowerIDCardRepository;
 import com.bg.bzahov.achievementsBG.repositories.RowerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,8 @@ public class RowerService {
 
     @Autowired
     private final RowerRepository rowerRepository;
-
+    @Autowired
+    private final RowerIDCardRepository rowerIDCardRepository;
     public Rower addRower(Rower rower) {
         return rowerRepository.save(rower);
     }
@@ -56,6 +58,12 @@ public class RowerService {
             throw new RowerNotFoundException("RowerID: " + id);
         }
         Rower rower = getRowerById(id);
+
+        rower.getRowerIDCards().forEach(rowerIDCard -> {
+            rowerIDCard.setRower(null);
+            rowerIDCardRepository.save(rowerIDCard);
+        });
+
         rowerRepository.delete(rower);
     }
 

@@ -1,18 +1,18 @@
 package com.bg.bzahov.achievementsBG.controlers;
 
 import com.bg.bzahov.achievementsBG.dto.auth.response.RowerResponseDto;
-import com.bg.bzahov.achievementsBG.exceptions.RowerNotFoundException;
 import com.bg.bzahov.achievementsBG.model.Rower;
 import com.bg.bzahov.achievementsBG.security.SecurityConstants;
 import com.bg.bzahov.achievementsBG.services.RowerIDCardService;
 import com.bg.bzahov.achievementsBG.services.RowerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.bg.bzahov.achievementsBG.controlers.utils.ControllersUtils.*;
 
 @RestController
 @RequestMapping("api/" + SecurityConstants.API_VERSION + "/rowers")
@@ -24,42 +24,49 @@ public class RowerController {
     private RowerService rowerService;
     private RowerIDCardService cardService;
 
+    // Create Mappings
     @PostMapping
-    public Rower createRower(@RequestBody Rower rower) {
-        return rowerService.addRower(rower);
+    public ResponseEntity<RowerResponseDto> createRower(@RequestBody Rower rower) {
+        Rower createdRower = rowerService.addRower(rower);
+        return getRowerResponseDtoResponseEntity(createdRower);
     }
 
+    // Get Mappings
     @GetMapping("/{id}")
     public ResponseEntity<RowerResponseDto> getRowerById(@PathVariable("id") Long id) {
-        Rower rower = rowerService.getRowerById(id);
-        if(rower == null) {
-            throw new RowerNotFoundException("RowerID: " + id.toString());
-        }
-//        List<RowerIDCard> rowerIDCard = rowerService.getRowerIDCardByRowerID(id);
-//        rower.setRowerIDCards(List.of(rowerIDCard));
-        return new ResponseEntity<>(
-                RowerResponseDto.fromRower(rower),
-                HttpStatus.OK
-        );
-    }
-
-    @PutMapping("update/{id}")
-    public Rower updateRower(@PathVariable("id") Long id, @RequestBody Rower rower) {
-        return rowerService.updateRower(id, rower);
+        Rower fetchedRower = rowerService.getRowerById(id);
+        return getRowerResponseDtoResponseEntity(fetchedRower);
     }
 
     @GetMapping
-    public List<Rower> getAllRowers() {
-        return rowerService.getAllRowers();
+    public ResponseEntity<List<RowerResponseDto>> getAllRowers() {
+        List<Rower> allRowers = rowerService.getAllRowers();
+        return getListResponseEntity(allRowers);
     }
 
-    @GetMapping("/ByYearOfBirth/{yearOfBirth}")
-    public List<Rower> getAllRowersByYearOfBirth(@PathVariable String yearOfBirth) {
-        return rowerService.getAllRowersByYear(String.valueOf(yearOfBirth));
+    @GetMapping("/byYearOfBirth/{yearOfBirth}")
+    public ResponseEntity<List<RowerResponseDto>> getAllRowersByYearOfBirth(@PathVariable String yearOfBirth) {
+        List<Rower> allRowers = rowerService.getAllRowersByYear(String.valueOf(yearOfBirth));
+        return getListResponseEntity(allRowers);
+    }
+    // Update Mappings
+
+    @PutMapping("update/{id}")
+    public ResponseEntity<RowerResponseDto> updateRower(@PathVariable("id") Long id, @RequestBody Rower rower) {
+        Rower updatedRower = rowerService.updateRower(id, rower);
+        return getRowerResponseDtoResponseEntity(updatedRower);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteRower(@PathVariable("id") Long id) {
-        rowerService.deleteRower(id);
+    // Delete mappings
+    @DeleteMapping("/delete{id}")
+    public ResponseEntity<String> deleteRowerByIdVariable(@PathVariable Long id) {
+        return handleDeletion(() -> rowerService.deleteRower(id), id.toString(), "Rower with identifier id: ");
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteRowerByIdParam(@RequestParam Long id) {
+        return handleDeletion(() -> rowerService.deleteRower(id), id.toString(), "Rower with identifier id: ");
+    }
+
+
 }

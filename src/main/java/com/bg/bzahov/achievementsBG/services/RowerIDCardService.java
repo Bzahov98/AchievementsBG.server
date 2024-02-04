@@ -23,6 +23,9 @@ public class RowerIDCardService {
     @Autowired
     private RowerRepository rowerRepository;
 
+    public List<RowerIDCard> getAllRowerIDCards() {
+        return rowerIDCardRepository.findAll();
+    }
     public RowerIDCard createRowerIDCard(Long rowerID, RowerIDCard rowerIDCard) {
         Rower rower = rowerRepository.findById(rowerID)
                 .orElseThrow(
