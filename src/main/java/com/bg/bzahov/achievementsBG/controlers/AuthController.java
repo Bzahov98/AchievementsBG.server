@@ -3,39 +3,39 @@ package com.bg.bzahov.achievementsBG.controlers;
 import com.bg.bzahov.achievementsBG.dto.auth.LoginDto;
 import com.bg.bzahov.achievementsBG.dto.auth.RegisterDto;
 import com.bg.bzahov.achievementsBG.dto.auth.response.AuthResponseDto;
-import com.bg.bzahov.achievementsBG.security.SecurityConstants;
-import com.bg.bzahov.achievementsBG.services.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.bg.bzahov.achievementsBG.services.AuthServiceImpl;
+import com.bg.bzahov.achievementsBG.services.base.IAuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.bg.bzahov.achievementsBG.constants.PathConstants.*;
+import static com.bg.bzahov.achievementsBG.constants.StringConstants.USER_REGISTERED_SUCCESSFUL;
+
 @RestController
-@RequestMapping("/api/" + SecurityConstants.API_VERSION + "/auth")
+@RequestMapping(BASE_URL + PATH_AUTH)
 public class AuthController {
 
-    public static final String USER_REGISTERED_SUCCESS = "User registered success!";
-    private final AuthService authService;
+    private final IAuthService authService;
 
-    @Autowired
-    public AuthController(AuthService authService) {
+    public AuthController(AuthServiceImpl authService) {
         this.authService = authService;
     }
 
-    @PostMapping(value = "login",
+    @PostMapping(value = PATH_AUTH_REQUEST_LOGIN,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto) {
         return new ResponseEntity<>(authService.login(loginDto), HttpStatus.OK);
     }
 
-    @PostMapping("register")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
+    @PostMapping(PATH_AUTH_REQUEST_REGISTER)
+    public String register(@RequestBody RegisterDto registerDto) {
         authService.register(registerDto);
-        return new ResponseEntity<>(USER_REGISTERED_SUCCESS, HttpStatus.OK);
+        return USER_REGISTERED_SUCCESSFUL + registerDto.getUsername();
     }
 
-    @GetMapping("roles")
+    @GetMapping(PATH_AUTH_REQUEST_ROLES)
     public ResponseEntity<?> getRoles() {
         return new ResponseEntity<>(authService.findAllRoles(), HttpStatus.OK);
     }

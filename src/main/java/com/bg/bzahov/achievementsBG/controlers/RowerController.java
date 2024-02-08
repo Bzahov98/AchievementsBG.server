@@ -2,7 +2,6 @@ package com.bg.bzahov.achievementsBG.controlers;
 
 import com.bg.bzahov.achievementsBG.dto.auth.response.RowerResponseDto;
 import com.bg.bzahov.achievementsBG.model.Rower;
-import com.bg.bzahov.achievementsBG.security.SecurityConstants;
 import com.bg.bzahov.achievementsBG.services.RowerIDCardService;
 import com.bg.bzahov.achievementsBG.services.RowerService;
 import lombok.AllArgsConstructor;
@@ -12,10 +11,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.bg.bzahov.achievementsBG.constants.PathConstants.BASE_URL;
 import static com.bg.bzahov.achievementsBG.controlers.utils.ControllersUtils.*;
 
 @RestController
-@RequestMapping("api/" + SecurityConstants.API_VERSION + "/rowers")
+@RequestMapping(BASE_URL+ "rowers")
 @AllArgsConstructor
 //@PreAuthorize("hasAuthority('ADMIN') or true")
 public class RowerController {

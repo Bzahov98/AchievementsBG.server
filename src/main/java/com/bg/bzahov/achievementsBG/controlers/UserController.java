@@ -3,7 +3,6 @@ package com.bg.bzahov.achievementsBG.controlers;
 import com.bg.bzahov.achievementsBG.dto.UserDto;
 import com.bg.bzahov.achievementsBG.model.UserEntity;
 import com.bg.bzahov.achievementsBG.repositories.UserRepository;
-import com.bg.bzahov.achievementsBG.security.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,10 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.bg.bzahov.achievementsBG.constants.PathConstants.BASE_URL;
 import static com.bg.bzahov.achievementsBG.controlers.utils.ControllersUtils.mapAndConvertToDto;
 
 @RestController
-@RequestMapping(SecurityConstants.BASE_URL + "users")
+@RequestMapping(BASE_URL + "users")
 public class UserController {
 
     private final UserRepository userRepository;

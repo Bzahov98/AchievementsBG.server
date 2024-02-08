@@ -9,35 +9,44 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 import java.util.Date;
+import java.util.stream.Collectors;
+
+import static com.bg.bzahov.achievementsBG.utils.ExceptionUtils.createErrorObject;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorObject> handleConstraintViolationException(ConstraintViolationException ex, WebRequest request) {
+        String errorMessage = ex.getConstraintViolations().stream()
+                .map(ConstraintViolation::getMessage)
+                .collect(Collectors.joining(", "));
+
+        ErrorObject errorObject = createErrorObject(HttpStatus.BAD_REQUEST, errorMessage);
+
+        return new ResponseEntity<>(errorObject, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ErrorObject> handleUserNotFoundException(UsernameNotFoundException ex, WebRequest request) {
-        ErrorObject errorObject = new ErrorObject();
-        errorObject.setStatusCode(HttpStatus.NOT_FOUND.value());
-        errorObject.setMessage("User:" + ex.getMessage());
-        errorObject.setTimestamp(new Date());
-        return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.BAD_REQUEST);
+        ErrorObject errorObject = createErrorObject(HttpStatus.NOT_FOUND, "User:" + ex.getMessage());
+        return new ResponseEntity<>(errorObject, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(RowerNotFoundException.class)
     public ResponseEntity<ErrorObject> handleRowerNotFoundException(RowerNotFoundException ex, WebRequest request) {
-
-        ErrorObject errorObject = new ErrorObject();
-
-        errorObject.setStatusCode(HttpStatus.NOT_FOUND.value());
-        errorObject.setMessage(ex.getMessage() + "| For request:" + request.getDescription(false));
-        errorObject.setTimestamp(new Date());
-
-        return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.NOT_FOUND);
+        ErrorObject errorObject =
+                createErrorObject(HttpStatus.NOT_FOUND, ex.getMessage() + "| For request:" + request.getDescription(false));
+        return new ResponseEntity<>(errorObject, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(RowerIDCardNotFoundException.class)
-    public ResponseEntity<ErrorObject> RowerIDCardNotFoundException(RowerIDCardNotFoundException ex, WebRequest request) {
+    public ResponseEntity<ErrorObject> RowerIDCardNotFoundException(RowerIDCardNotFoundException ex, WebRequest
+            request) {
 
         ErrorObject errorObject = new ErrorObject();
 
@@ -49,11 +58,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ValidationFailedException.class)
-    public ResponseEntity<ErrorObject> handleValidationFailedException(String message, WebRequest request) {
-        ErrorObject errorObject = new ErrorObject();
-        errorObject.setStatusCode(HttpStatus.BAD_REQUEST.value());
-        errorObject.setMessage(message + " | for request:" + request.toString());
-        errorObject.setTimestamp(new Date());
+    public ResponseEntity<ErrorObject> handleValidationFailedException(ValidationFailedException ex, WebRequest request) {
+        ErrorObject errorObject = createErrorObject(HttpStatus.BAD_REQUEST, ex.getMessage() + " | for request:" + request.getDescription(false));
         return new ResponseEntity<>(errorObject, HttpStatus.BAD_REQUEST);
     }
 

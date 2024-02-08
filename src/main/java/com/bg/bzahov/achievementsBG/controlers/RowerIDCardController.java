@@ -2,7 +2,6 @@ package com.bg.bzahov.achievementsBG.controlers;
 
 import com.bg.bzahov.achievementsBG.dto.RowerIDCardDto;
 import com.bg.bzahov.achievementsBG.model.RowerIDCard;
-import com.bg.bzahov.achievementsBG.security.SecurityConstants;
 import com.bg.bzahov.achievementsBG.services.RowerIDCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.bg.bzahov.achievementsBG.constants.PathConstants.BASE_URL;
 import static com.bg.bzahov.achievementsBG.controlers.utils.ControllersUtils.handleDeletion;
 
 /**
@@ -17,7 +17,7 @@ import static com.bg.bzahov.achievementsBG.controlers.utils.ControllersUtils.han
  * It uses the RowerIDCardService to perform operations on the RowerIDCard entities.
  */
 @RestController
-@RequestMapping(SecurityConstants.BASE_URL + "rowers/id_cards")
+@RequestMapping(BASE_URL + "rowers/id_cards")
 //@PreAuthorize("hasAuthority('ADMIN') or true")
 public class RowerIDCardController {
 

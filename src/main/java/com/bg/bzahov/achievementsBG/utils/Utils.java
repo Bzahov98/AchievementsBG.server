@@ -1,4 +1,4 @@
-package com.bg.bzahov.achievementsBG;
+package com.bg.bzahov.achievementsBG.utils;
 
 public class Utils {
     public static boolean validateString(String str) {

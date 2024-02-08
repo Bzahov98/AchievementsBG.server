@@ -1,6 +1,6 @@
 package com.bg.bzahov.achievementsBG.security.jwt;
 
-import com.bg.bzahov.achievementsBG.security.SecurityConstants;
+import com.bg.bzahov.achievementsBG.constants.SecurityConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

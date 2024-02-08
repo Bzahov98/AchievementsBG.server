@@ -1,6 +1,6 @@
 package com.bg.bzahov.achievementsBG.services;
 
-import com.bg.bzahov.achievementsBG.Utils;
+import com.bg.bzahov.achievementsBG.utils.Utils;
 import com.bg.bzahov.achievementsBG.exceptions.RowerNotFoundException;
 import com.bg.bzahov.achievementsBG.exceptions.ValidationFailedException;
 import com.bg.bzahov.achievementsBG.model.Rower;
@@ -12,18 +12,19 @@ import org.springframework.stereotype.Service;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.bg.bzahov.achievementsBG.constants.StringConstants.ALREADY_EXISTS;
+import static com.bg.bzahov.achievementsBG.constants.StringConstants.A_ROWER_WITH_NAME;
+
 @AllArgsConstructor
 @Service
 public class RowerService {
 
-    public static final String A_ROWER_WITH_NAME = "A Rower with name:  ";
-    public static final String ALREADY_EXISTS = " already exists.";
     private final RowerRepository rowerRepository;
     private final RowerIDCardRepository rowerIDCardRepository;
 
     public Rower addRower(Rower rower) {
         List<Rower> existingRower = rowerRepository.findAllByName(rower.getName());
-        if (existingRower.size() > 0) {
+        if (!existingRower.isEmpty()) {
             throw new ValidationFailedException(A_ROWER_WITH_NAME + rower.getName() + ALREADY_EXISTS);
         }
         return rowerRepository.save(rower);
