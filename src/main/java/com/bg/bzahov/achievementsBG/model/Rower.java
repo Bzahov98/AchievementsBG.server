@@ -38,11 +38,11 @@ public class Rower {
     @Min(value = 1, message = ErrorConstants.ERROR_AGE_RESTRICTION)
     @Max(value = 99, message = ErrorConstants.ERROR_AGE_RESTRICTION)
     @Column(nullable = true)
-    private int age;
+    private Integer age;
 
     @YearOfBirth(message = ErrorConstants.ERROR_YEAR_OF_BIRTH_RESTRICTION)
     @Column(nullable = true)
-    private int yearOfBirth;
+    private Integer yearOfBirth;
 
 //    @OneToMany(mappedBy = "rowerID", cascade = CascadeType.REMOVE)
 //    private List<RowerIDCard> rowerIDCards = new ArrayList<>();

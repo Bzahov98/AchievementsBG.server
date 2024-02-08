@@ -1,26 +1,28 @@
 package com.bg.bzahov.achievementsBG.controlers;
 
+import com.bg.bzahov.achievementsBG.constants.ErrorConstants;
 import com.bg.bzahov.achievementsBG.dto.auth.response.RowerResponseDto;
 import com.bg.bzahov.achievementsBG.model.Rower;
 import com.bg.bzahov.achievementsBG.services.RowerIDCardService;
 import com.bg.bzahov.achievementsBG.services.RowerService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 import static com.bg.bzahov.achievementsBG.constants.PathConstants.BASE_URL;
-import static com.bg.bzahov.achievementsBG.controlers.utils.ControllersUtils.*;
+import static com.bg.bzahov.achievementsBG.constants.PathConstants.PATH_ROWERS;
+import static com.bg.bzahov.achievementsBG.utils.ControllersUtils.handleDeletion;
+import static com.bg.bzahov.achievementsBG.utils.ModelUtils.getListResponseEntity;
+import static com.bg.bzahov.achievementsBG.utils.ModelUtils.getRowerResponseDtoResponseEntity;
 
 @RestController
-@RequestMapping(BASE_URL+ "rowers")
+@RequestMapping(BASE_URL + PATH_ROWERS)
 @AllArgsConstructor
 //@PreAuthorize("hasAuthority('ADMIN') or true")
 public class RowerController {
 
-    @Autowired
     private RowerService rowerService;
     private RowerIDCardService cardService;
 
@@ -60,13 +62,19 @@ public class RowerController {
     // Delete mappings
     @DeleteMapping("/delete{id}")
     public ResponseEntity<String> deleteRowerByIdVariable(@PathVariable Long id) {
-        return handleDeletion(() -> rowerService.deleteRower(id), id.toString(), "Rower with identifier id: ");
+        return handleRowerDeletion(id);
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteRowerByIdParam(@RequestParam Long id) {
-        return handleDeletion(() -> rowerService.deleteRower(id), id.toString(), "Rower with identifier id: ");
+        return handleRowerDeletion(id);
     }
 
-
+    private ResponseEntity<String> handleRowerDeletion(Long id) {
+        return handleDeletion(
+                () -> rowerService.deleteRower(id),
+                id.toString(),
+                ErrorConstants.ERROR_ROWER_WITH_IDENTIFIER_ID
+        );
+    }
 }

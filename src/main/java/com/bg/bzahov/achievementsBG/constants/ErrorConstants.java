@@ -6,4 +6,5 @@ public class ErrorConstants {
     public static final String INVALID_CREDENTIALS= "Invalid credentials!";
     public static final String ERROR_AGE_RESTRICTION = "Age must be between 1 and 99";
     public static final String ERROR_YEAR_OF_BIRTH_RESTRICTION = "Year of birth must be valid";
+    public static final String ERROR_ROWER_WITH_IDENTIFIER_ID = "Rower with identifier id: ";
 }

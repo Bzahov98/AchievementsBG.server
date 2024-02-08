@@ -1,15 +1,14 @@
 package com.bg.bzahov.achievementsBG.services;
 
-import com.bg.bzahov.achievementsBG.utils.Utils;
 import com.bg.bzahov.achievementsBG.exceptions.RowerNotFoundException;
 import com.bg.bzahov.achievementsBG.exceptions.ValidationFailedException;
 import com.bg.bzahov.achievementsBG.model.Rower;
 import com.bg.bzahov.achievementsBG.repositories.RowerIDCardRepository;
 import com.bg.bzahov.achievementsBG.repositories.RowerRepository;
+import com.bg.bzahov.achievementsBG.utils.Utils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
 import java.util.List;
 
 import static com.bg.bzahov.achievementsBG.constants.StringConstants.ALREADY_EXISTS;
@@ -42,8 +41,8 @@ public class RowerService {
             existingRower.setName(rower.getName());
         }
 
-        int age = rower.getAge();
-        if (age >= 1 && age <= 100) {
+        Integer age = rower.getAge();
+        if (age != null) {
             existingRower.setAge(age);
         }
 
@@ -51,8 +50,8 @@ public class RowerService {
             existingRower.setGender(rower.getGender());
         }
 
-        int yearOfBirth = rower.getYearOfBirth();
-        if (yearOfBirth >= 1900 && yearOfBirth <= Calendar.getInstance().get(Calendar.YEAR) - 1) {
+        Integer yearOfBirth = rower.getYearOfBirth();
+        if (yearOfBirth !=  null) {
             existingRower.setYearOfBirth(yearOfBirth);
         }
 

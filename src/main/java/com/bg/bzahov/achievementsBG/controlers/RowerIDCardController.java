@@ -3,14 +3,15 @@ package com.bg.bzahov.achievementsBG.controlers;
 import com.bg.bzahov.achievementsBG.dto.RowerIDCardDto;
 import com.bg.bzahov.achievementsBG.model.RowerIDCard;
 import com.bg.bzahov.achievementsBG.services.RowerIDCardService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 import static com.bg.bzahov.achievementsBG.constants.PathConstants.BASE_URL;
-import static com.bg.bzahov.achievementsBG.controlers.utils.ControllersUtils.handleDeletion;
+import static com.bg.bzahov.achievementsBG.constants.StringConstants.IDENTIFIER_ROWER_ID_CARD;
+import static com.bg.bzahov.achievementsBG.utils.ControllersUtils.handleDeletion;
 
 /**
  * RowerIDCardController is a REST controller that provides endpoints for managing RowerIDCard entities.
@@ -18,10 +19,10 @@ import static com.bg.bzahov.achievementsBG.controlers.utils.ControllersUtils.han
  */
 @RestController
 @RequestMapping(BASE_URL + "rowers/id_cards")
+@AllArgsConstructor
 //@PreAuthorize("hasAuthority('ADMIN') or true")
 public class RowerIDCardController {
 
-    @Autowired
     private RowerIDCardService rowerIDCardService;
 
     @GetMapping("")
@@ -80,7 +81,7 @@ public class RowerIDCardController {
      */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteRowerIDCardById(@PathVariable Long id) {
-        return handleDeletion(() -> rowerIDCardService.deleteRowerIDCard(id), id.toString(), "RowerIDCard with identifier: ");
+        return handleDeletion(() -> rowerIDCardService.deleteRowerIDCard(id), id.toString(), IDENTIFIER_ROWER_ID_CARD);
     }
 
     /**
@@ -94,7 +95,7 @@ public class RowerIDCardController {
         return handleDeletion(
                 () -> rowerIDCardService.deleteRowerIDCard(cardNumber),
                 cardNumber,
-                "RowerIDCard with identifier: "
+                IDENTIFIER_ROWER_ID_CARD
         );
     }
 }

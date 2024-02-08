@@ -10,4 +10,7 @@ public class PathConstants {
     public static final String PATH_AUTH_REQUEST_REGISTER = "register";
     public static final String PATH_AUTH_REQUEST_ROLES = "roles";
 
+    // Rower paths
+    public static final String PATH_ROWERS = "rowers";
+
 }

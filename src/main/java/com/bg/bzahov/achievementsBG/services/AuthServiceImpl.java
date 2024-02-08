@@ -2,6 +2,7 @@ package com.bg.bzahov.achievementsBG.services;
 
 import com.bg.bzahov.achievementsBG.dto.auth.LoginDto;
 import com.bg.bzahov.achievementsBG.dto.auth.RegisterDto;
+import com.bg.bzahov.achievementsBG.dto.auth.RoleDto;
 import com.bg.bzahov.achievementsBG.dto.auth.response.AuthResponseDto;
 import com.bg.bzahov.achievementsBG.exceptions.AuthenticationFailedException;
 import com.bg.bzahov.achievementsBG.model.Role;
@@ -25,6 +26,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.USERNAME_IS_TAKEN;
+import static com.bg.bzahov.achievementsBG.utils.ControllersUtils.mapAndConvertEntityToDto;
 
 @Service
 public class AuthServiceImpl implements IAuthService {
@@ -80,9 +82,10 @@ public class AuthServiceImpl implements IAuthService {
         return new AuthResponseDto(token);
     }
 
+
     @Override
-    public List<Role> findAllRoles() {
-        return roleRepository.findAll();
+    public List<RoleDto> findAllRoles() {
+        return mapAndConvertEntityToDto(roleRepository.findAll(), RoleDto::fromRole);
     }
 
     // TODO: 3/29/2021 implement change password
