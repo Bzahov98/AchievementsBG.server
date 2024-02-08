@@ -64,7 +64,7 @@ public class RowerIDCardService {
 //    public RowerIDCard getAllRowerIDCardByRowerID(Long rowerId ) {
 //        return rowerRepository.findByRowerId(rowerId)
 //                .orElseThrow(
-//                        () -> new RowerIDCardNotFoundException(rowerId.toString())
+//                        () -> new handleRowerIDCardNotFoundException(rowerId.toString())
 //                );
 //    }
 

@@ -9,31 +9,29 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.io.IOException;
-import java.util.Date;
-import java.util.stream.Collectors;
 
 import static com.bg.bzahov.achievementsBG.utils.ExceptionUtils.createErrorObject;
+import static com.bg.bzahov.achievementsBG.utils.ExceptionUtils.extractViolationsFromException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorObject> handleConstraintViolationException(ConstraintViolationException ex, WebRequest request) {
-        String errorMessage = ex.getConstraintViolations().stream()
-                .map(ConstraintViolation::getMessage)
-                .collect(Collectors.joining(", "));
+        String errorMessage = extractViolationsFromException(ex);
 
-        ErrorObject errorObject = createErrorObject(HttpStatus.BAD_REQUEST, errorMessage);
+        ErrorObject errorObject =
+                createErrorObject(HttpStatus.BAD_REQUEST, errorMessage);
 
         return new ResponseEntity<>(errorObject, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ErrorObject> handleUserNotFoundException(UsernameNotFoundException ex, WebRequest request) {
-        ErrorObject errorObject = createErrorObject(HttpStatus.NOT_FOUND, "User:" + ex.getMessage());
+        ErrorObject errorObject =
+                createErrorObject(HttpStatus.NOT_FOUND, "User:" + ex.getMessage());
         return new ResponseEntity<>(errorObject, HttpStatus.NOT_FOUND);
     }
 
@@ -45,16 +43,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(RowerIDCardNotFoundException.class)
-    public ResponseEntity<ErrorObject> RowerIDCardNotFoundException(RowerIDCardNotFoundException ex, WebRequest
-            request) {
-
-        ErrorObject errorObject = new ErrorObject();
-
-        errorObject.setStatusCode(HttpStatus.NOT_FOUND.value());
-        errorObject.setMessage(ex.getMessage());
-        errorObject.setTimestamp(new Date());
-
-        return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.NOT_FOUND);
+    public ResponseEntity<ErrorObject> handleRowerIDCardNotFoundException(RowerIDCardNotFoundException ex, WebRequest request) {
+        ErrorObject errorObject =
+                createErrorObject(HttpStatus.NOT_FOUND, ex.getMessage() + " | For request:" + request.getDescription(false));
+        return new ResponseEntity<>(errorObject, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(ValidationFailedException.class)
@@ -65,38 +57,29 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-    public ResponseEntity<ErrorObject> handleCredentialsNotFoundException(String message, WebRequest request) {
-        ErrorObject errorObject = new ErrorObject();
-        errorObject.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        errorObject.setMessage("CredentialsNotFound: " + message);
-        errorObject.setTimestamp(new Date());
+    public ResponseEntity<ErrorObject> handleCredentialsNotFoundException(AuthenticationCredentialsNotFoundException ex, WebRequest request) {
+        ErrorObject errorObject = createErrorObject(HttpStatus.INTERNAL_SERVER_ERROR, "CredentialsNotFound: " + ex.getMessage() + " | for request:" + request.getDescription(false));
         return new ResponseEntity<>(errorObject, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<ErrorObject> handleIllegalStateExceptionException(String message, WebRequest request) {
-        ErrorObject errorObject = new ErrorObject();
-        errorObject.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        errorObject.setMessage("IllegalStateException: " + message + " for request:" + request.toString());
-        errorObject.setTimestamp(new Date());
+    public ResponseEntity<ErrorObject> handleIllegalStateExceptionException(IllegalStateException ex, WebRequest request) {
+        ErrorObject errorObject =
+                createErrorObject(HttpStatus.INTERNAL_SERVER_ERROR, "IllegalStateException: " + ex.getMessage() + " | for request:" + request.getDescription(false));
         return new ResponseEntity<>(errorObject, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(IOException.class)
-    public ResponseEntity<ErrorObject> handleIOException(String message, WebRequest request) {
-        ErrorObject errorObject = new ErrorObject();
-        errorObject.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        errorObject.setMessage("IO: " + message);
-        errorObject.setTimestamp(new Date());
+    public ResponseEntity<ErrorObject> handleIOException(IOException ex, WebRequest request) {
+        ErrorObject errorObject =
+                createErrorObject(HttpStatus.INTERNAL_SERVER_ERROR, "IO: " + ex.getMessage() + " | for request:" + request.getDescription(false));
         return new ResponseEntity<>(errorObject, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorObject> handleException(String message, WebRequest request) {
-        ErrorObject errorObject = new ErrorObject();
-        errorObject.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        errorObject.setMessage(message);
-        errorObject.setTimestamp(new Date());
+    public ResponseEntity<ErrorObject> handleException(Exception ex, WebRequest request) {
+        ErrorObject errorObject =
+                createErrorObject(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage() + " | for request:" + request.getDescription(false));
         return new ResponseEntity<>(errorObject, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
