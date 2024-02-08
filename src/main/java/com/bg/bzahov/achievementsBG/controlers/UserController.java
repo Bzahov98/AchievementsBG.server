@@ -15,7 +15,7 @@ import java.util.List;
 import static com.bg.bzahov.achievementsBG.controlers.utils.ControllersUtils.mapAndConvertToDto;
 
 @RestController
-@RequestMapping("/api/" + SecurityConstants.API_VERSION + "/users")
+@RequestMapping(SecurityConstants.BASE_URL + "users")
 public class UserController {
 
     private final UserRepository userRepository;

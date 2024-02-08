@@ -16,13 +16,15 @@ import java.util.List;
 @Service
 public class RowerService {
 
+    public static final String A_ROWER_WITH_NAME = "A Rower with name:  ";
+    public static final String ALREADY_EXISTS = " already exists.";
     private final RowerRepository rowerRepository;
     private final RowerIDCardRepository rowerIDCardRepository;
 
     public Rower addRower(Rower rower) {
         List<Rower> existingRower = rowerRepository.findAllByName(rower.getName());
         if (existingRower.size() > 0) {
-            throw new ValidationFailedException("A Rower with name:  " + rower.getName() + " already exists.");
+            throw new ValidationFailedException(A_ROWER_WITH_NAME + rower.getName() + ALREADY_EXISTS);
         }
         return rowerRepository.save(rower);
     }

@@ -17,14 +17,14 @@ import static com.bg.bzahov.achievementsBG.controlers.utils.ControllersUtils.han
  * It uses the RowerIDCardService to perform operations on the RowerIDCard entities.
  */
 @RestController
-@RequestMapping("api/" + SecurityConstants.API_VERSION + "/")
+@RequestMapping(SecurityConstants.BASE_URL + "rowers/id_cards")
 //@PreAuthorize("hasAuthority('ADMIN') or true")
 public class RowerIDCardController {
 
     @Autowired
     private RowerIDCardService rowerIDCardService;
 
-    @GetMapping("/rowers/id_cards")
+    @GetMapping("")
     public List<RowerIDCardDto> getAllRowerIDCards() {
         List<RowerIDCard> allRowerIDCards = rowerIDCardService.getAllRowerIDCards();
         return allRowerIDCards.stream().map(RowerIDCardDto::fromRowerIDCard).toList();
@@ -36,7 +36,7 @@ public class RowerIDCardController {
      * @param rowerID The ID of the Rower.
      * @return A list of RowerIDCardDto objects.
      */
-    @GetMapping("/rowers/id_cards/{rowerID}")
+    @GetMapping("/{rowerID}")
     public List<RowerIDCardDto> getAllRowerIDCardsByRower(@PathVariable Long rowerID/*, @RequestBody RowerIDCard rowerIDCard*/) {
         List<RowerIDCard> allRowerIDCardForRowerID = rowerIDCardService.getAllRowerIDCardForRowerID(rowerID);
         return allRowerIDCardForRowerID.stream().map(RowerIDCardDto::fromRowerIDCard).toList();
@@ -49,7 +49,7 @@ public class RowerIDCardController {
      * @param rowerIDCard The RowerIDCard entity to be created.
      * @return The created RowerIDCard entity.
      */
-    @PostMapping("/rowers/id_cards")
+    @PostMapping("")
     public RowerIDCardDto createRowerIDCard(@RequestParam() Long rowerID, @RequestBody RowerIDCard rowerIDCard) {
         return RowerIDCardDto.fromRowerIDCard(
                 rowerIDCardService.createRowerIDCard(rowerID, rowerIDCard)
@@ -65,7 +65,7 @@ public class RowerIDCardController {
      * @param newCardNumber The new card number to be set.
      * @return The updated RowerIDCard entity.
      */
-    @PutMapping("/rowers/id_cards/update")
+    @PutMapping("/update")
     public RowerIDCardDto updateRowerIDCard(@RequestParam String cardNumber, @RequestParam String newCardNumber) {
         return RowerIDCardDto.fromRowerIDCard(
                 rowerIDCardService.updateRowerIDCardByCardNumber(cardNumber, newCardNumber)
@@ -78,7 +78,7 @@ public class RowerIDCardController {
      * @param id The ID of the RowerIDCard entity to be deleted.
      * @return A ResponseEntity with a message indicating the result of the operation.
      */
-    @DeleteMapping("/rowers/id_cards/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteRowerIDCardById(@PathVariable Long id) {
         return handleDeletion(() -> rowerIDCardService.deleteRowerIDCard(id), id.toString(), "RowerIDCard with identifier: ");
     }
@@ -89,8 +89,12 @@ public class RowerIDCardController {
      * @param cardNumber The card number of the RowerIDCard entity to be deleted.
      * @return A ResponseEntity with a message indicating the result of the operation.
      */
-    @DeleteMapping("/rowers/id_cards/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<String> deleteRowerIDCardByCardNumber(@RequestParam String cardNumber) {
-        return handleDeletion(() -> rowerIDCardService.deleteRowerIDCard(cardNumber), cardNumber, "RowerIDCard with identifier: ");
+        return handleDeletion(
+                () -> rowerIDCardService.deleteRowerIDCard(cardNumber),
+                cardNumber,
+                "RowerIDCard with identifier: "
+        );
     }
 }
