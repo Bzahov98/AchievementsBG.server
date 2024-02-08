@@ -1,20 +1,28 @@
 package com.bg.bzahov.achievementsBG.services;
 
+import com.bg.bzahov.achievementsBG.dto.UserDto;
+import com.bg.bzahov.achievementsBG.model.UserEntity;
 import com.bg.bzahov.achievementsBG.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+import static com.bg.bzahov.achievementsBG.utils.ControllersUtils.mapAndConvertEntityToDto;
+
 @Service
+@AllArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-/*    public User createUser(User user) {
-        return userRepository.save(user);
+    public List<UserDto> getAllUsers(boolean isDetailedData) {
+        List<UserEntity> users = userRepository.findAll();
+
+        if (isDetailedData) {
+            return mapAndConvertEntityToDto(users, UserDto::fromUserEntityExtended);
+        } else {
+            return mapAndConvertEntityToDto(users, UserDto::fromUserEntity);
+        }
     }
-
-    public void loginUser(User user) {
-        // Update login status in the database
-    }*/
 }

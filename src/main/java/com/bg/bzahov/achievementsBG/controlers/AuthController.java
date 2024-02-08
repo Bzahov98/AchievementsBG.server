@@ -3,8 +3,8 @@ package com.bg.bzahov.achievementsBG.controlers;
 import com.bg.bzahov.achievementsBG.dto.auth.LoginDto;
 import com.bg.bzahov.achievementsBG.dto.auth.RegisterDto;
 import com.bg.bzahov.achievementsBG.dto.auth.response.AuthResponseDto;
-import com.bg.bzahov.achievementsBG.services.AuthServiceImpl;
 import com.bg.bzahov.achievementsBG.services.base.IAuthService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +15,10 @@ import static com.bg.bzahov.achievementsBG.constants.StringConstants.USER_REGIST
 
 @RestController
 @RequestMapping(BASE_URL + PATH_AUTH)
+@AllArgsConstructor
 public class AuthController {
 
     private final IAuthService authService;
-
-    public AuthController(AuthServiceImpl authService) {
-        this.authService = authService;
-    }
 
     @PostMapping(value = PATH_AUTH_REQUEST_LOGIN,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

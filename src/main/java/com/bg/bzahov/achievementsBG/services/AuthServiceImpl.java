@@ -11,7 +11,7 @@ import com.bg.bzahov.achievementsBG.repositories.RoleRepository;
 import com.bg.bzahov.achievementsBG.repositories.UserRepository;
 import com.bg.bzahov.achievementsBG.security.jwt.JWTGenerator;
 import com.bg.bzahov.achievementsBG.services.base.IAuthService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,32 +25,24 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.USERNAME_IS_TAKEN;
+import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.*;
+import static com.bg.bzahov.achievementsBG.constants.SecurityConstants.DEFAULT_ROLE_USER;
 import static com.bg.bzahov.achievementsBG.utils.ControllersUtils.mapAndConvertEntityToDto;
 
 @Service
+@AllArgsConstructor
 public class AuthServiceImpl implements IAuthService {
 
-    public static final String ROLE_USER = "USER";
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JWTGenerator jwtGenerator;
 
-    @Autowired
-    public AuthServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JWTGenerator jwtGenerator) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
-        this.jwtGenerator = jwtGenerator;
-    }
-
     @Override
     public UserEntity register(RegisterDto registerDto) {
         if (userRepository.existsByUsername(registerDto.getUsername())) {
-            throw new AuthenticationFailedException(USERNAME_IS_TAKEN);
+            throw new AuthenticationFailedException(ERROR_USERNAME_IS_TAKEN);
         }
 
         UserEntity user = new UserEntity();
@@ -63,7 +55,7 @@ public class AuthServiceImpl implements IAuthService {
             user.setRoles(Collections.singletonList(roles));
         } else {
             // Handle the case when the role is not found
-            Optional<Role> userDefaultRole = roleRepository.findByName(ROLE_USER);
+            Optional<Role> userDefaultRole = roleRepository.findByName(DEFAULT_ROLE_USER);
             user.setRoles(List.of(userDefaultRole.get())); // set default role
         }
         return userRepository.save(user);
@@ -91,21 +83,21 @@ public class AuthServiceImpl implements IAuthService {
     // TODO: 3/29/2021 implement change password
     @Override
     public void changePassword(String username, String oldPassword, String newPassword) {
-        UserEntity user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        UserEntity user = getUserByUsername(username);
+
         if (passwordEncoder.matches(oldPassword, user.getPassword())) {
             user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
         } else {
-            throw new AuthenticationFailedException("Old password is incorrect");
+            throw new AuthenticationFailedException(ERROR_INCORRECT_OLD_PASSWORD);
         }
     }
 
     // TODO: 3/29/2021 implement reset password
     @Override
     public void resetPassword(String username) {
-        UserEntity user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        UserEntity user = getUserByUsername(username);
+
         String tempPassword = UUID.randomUUID().toString();
         user.setPassword(passwordEncoder.encode(tempPassword));
         userRepository.save(user);
@@ -115,8 +107,8 @@ public class AuthServiceImpl implements IAuthService {
     // TODO: 3/29/2021 implement update user details
     @Override
     public void updateUserDetails(String username, UserEntity userDetails) {
-        UserEntity user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        UserEntity user = getUserByUsername(username);
+
         user.setUsername(userDetails.getUsername());
         user.setRoles(userDetails.getRoles());
         // update other fields as necessary
@@ -126,8 +118,12 @@ public class AuthServiceImpl implements IAuthService {
     // TODO: 3/29/2021 implement delete user
     @Override
     public void deleteUser(String username) {
-        UserEntity user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        UserEntity user = getUserByUsername(username);
         userRepository.delete(user);
+    }
+
+    private UserEntity getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(ERROR_USER_NOT_FOUND));
     }
 }

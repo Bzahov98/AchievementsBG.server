@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.ERROR_DOES_NOT_EXIST;
 import static com.bg.bzahov.achievementsBG.constants.StringConstants.DELETED_SUCCESSFULLY;
 
 // Support methods for rest controllers
@@ -18,7 +19,7 @@ public class ControllersUtils {
             deletionLogic.run();
             return ResponseEntity.ok(identifierStr + identifier + DELETED_SUCCESSFULLY);
         } catch (RowerIDCardNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(identifierStr + identifier + " DOES NOT EXIST!!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(identifierStr + identifier + ERROR_DOES_NOT_EXIST);
         }
     }
 
