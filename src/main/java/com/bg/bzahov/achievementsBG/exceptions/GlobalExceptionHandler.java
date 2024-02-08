@@ -1,8 +1,10 @@
 package com.bg.bzahov.achievementsBG.exceptions;
 
 import com.bg.bzahov.achievementsBG.dto.auth.response.ErrorObject;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,6 +14,7 @@ import org.springframework.web.context.request.WebRequest;
 import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 
+import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.ERROR_INVALID_VALUE_PROVIDED;
 import static com.bg.bzahov.achievementsBG.utils.ExceptionUtils.createErrorObject;
 import static com.bg.bzahov.achievementsBG.utils.ExceptionUtils.extractViolationsFromException;
 
@@ -60,6 +63,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorObject> handleCredentialsNotFoundException(AuthenticationCredentialsNotFoundException ex, WebRequest request) {
         ErrorObject errorObject = createErrorObject(HttpStatus.INTERNAL_SERVER_ERROR, "CredentialsNotFound: " + ex.getMessage() + " | for request:" + request.getDescription(false));
         return new ResponseEntity<>(errorObject, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(InvalidFormatException.class)
+    public ResponseEntity<ErrorObject> handleInvalidFormatException2(InvalidFormatException ex, WebRequest request) {
+        ErrorObject errorObject = createErrorObject(HttpStatus.BAD_REQUEST, ERROR_INVALID_VALUE_PROVIDED);
+        return new ResponseEntity<>(errorObject, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorObject> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex, WebRequest request) {
+        ErrorObject errorObject = createErrorObject(HttpStatus.BAD_REQUEST, ERROR_INVALID_VALUE_PROVIDED);
+        return new ResponseEntity<>(errorObject, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IllegalStateException.class)

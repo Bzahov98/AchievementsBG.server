@@ -1,7 +1,7 @@
 package com.bg.bzahov.achievementsBG.model;
 
-import com.bg.bzahov.achievementsBG.constants.ErrorConstants;
-import com.bg.bzahov.achievementsBG.model.validators.YearOfBirth;
+import com.bg.bzahov.achievementsBG.model.validators.ValidGender;
+import com.bg.bzahov.achievementsBG.model.validators.ValidYearOfBirth;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
@@ -15,6 +15,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+
+import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.*;
 
 @Data
 @AllArgsConstructor
@@ -30,17 +32,18 @@ public class Rower {
     @Column(nullable = false)
     private String name;
 
+    @ValidGender(message = ERROR_INVALID_GENDER)
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Gender gender;
 
-    @Min(value = 1, message = ErrorConstants.ERROR_AGE_RESTRICTION)
-    @Max(value = 99, message = ErrorConstants.ERROR_AGE_RESTRICTION)
+    @Min(value = 1, message = ERROR_AGE_RESTRICTION)
+    @Max(value = 99, message = ERROR_AGE_RESTRICTION)
     @Column(nullable = true)
     private Integer age;
 
-    @YearOfBirth(message = ErrorConstants.ERROR_YEAR_OF_BIRTH_RESTRICTION)
+    @ValidYearOfBirth(message = ERROR_YEAR_OF_BIRTH_RESTRICTION)
     @Column(nullable = true)
     private Integer yearOfBirth;
 

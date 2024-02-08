@@ -3,9 +3,9 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Calendar;
 
-public class YearOfBirthValidator implements ConstraintValidator<YearOfBirth, Integer> {
+public class YearOfBirthValidator implements ConstraintValidator<ValidYearOfBirth, Integer> {
     @Override
-    public void initialize(YearOfBirth constraintAnnotation) {
+    public void initialize(ValidYearOfBirth constraintAnnotation) {
     }
 
     @Override

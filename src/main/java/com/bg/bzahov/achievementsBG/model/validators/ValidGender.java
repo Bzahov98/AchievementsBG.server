@@ -7,11 +7,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.FIELD})
+@Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = YearOfBirthValidator.class)
-public @interface YearOfBirth {
-    String message() default "Invalid year of birth";
+@Constraint(validatedBy = GenderValidator.class)
+public @interface ValidGender {
+    String message() default "Invalid gender value";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
