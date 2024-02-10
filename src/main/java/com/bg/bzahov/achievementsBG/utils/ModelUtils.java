@@ -9,13 +9,15 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
+import static com.bg.bzahov.achievementsBG.constants.StringConstants.ROWER_ID;
+
 public class ModelUtils {
     // Rower Utils
     @NotNull
-    public static ResponseEntity<RowerResponseDto> getRowerResponseDtoResponseEntity(Rower rower1) {
-        RowerResponseDto retrievedRower = RowerResponseDto.fromRower(rower1);
+    public static ResponseEntity<RowerResponseDto> getRowerResponseDtoResponseEntity(Rower rower) {
+        RowerResponseDto retrievedRower = RowerResponseDto.fromRower(rower);
         if (retrievedRower == null) {
-            throw new RowerNotFoundException("RowerID: " + rower1.getId());
+            throw new RowerNotFoundException(ROWER_ID + rower.getId());
         }
         return new ResponseEntity<>(retrievedRower, HttpStatus.OK);
     }

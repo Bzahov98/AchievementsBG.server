@@ -9,5 +9,6 @@ public class StringConstants {
 
     public static final String DELETED_SUCCESSFULLY = " was DELETED successfully!";
     public static final String IDENTIFIER_ROWER_ID_CARD = "RowerIDCard with identifier: ";
+    public static final String ROWER_ID = "RowerID: ";
 
 }

@@ -1,5 +1,7 @@
 package com.bg.bzahov.achievementsBG.services;
 
+import com.bg.bzahov.achievementsBG.constants.ErrorConstants;
+import com.bg.bzahov.achievementsBG.dto.auth.response.RowerResponseDto;
 import com.bg.bzahov.achievementsBG.exceptions.RowerNotFoundException;
 import com.bg.bzahov.achievementsBG.exceptions.ValidationFailedException;
 import com.bg.bzahov.achievementsBG.model.Rower;
@@ -7,12 +9,16 @@ import com.bg.bzahov.achievementsBG.repositories.RowerIDCardRepository;
 import com.bg.bzahov.achievementsBG.repositories.RowerRepository;
 import com.bg.bzahov.achievementsBG.utils.Utils;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 import static com.bg.bzahov.achievementsBG.constants.StringConstants.ALREADY_EXISTS;
 import static com.bg.bzahov.achievementsBG.constants.StringConstants.A_ROWER_WITH_NAME;
+import static com.bg.bzahov.achievementsBG.utils.ControllersUtils.handleDeletion;
+import static com.bg.bzahov.achievementsBG.utils.ModelUtils.getListResponseEntity;
+import static com.bg.bzahov.achievementsBG.utils.ModelUtils.getRowerResponseDtoResponseEntity;
 
 @AllArgsConstructor
 @Service
@@ -51,7 +57,7 @@ public class RowerService {
         }
 
         Integer yearOfBirth = rower.getYearOfBirth();
-        if (yearOfBirth !=  null) {
+        if (yearOfBirth != null) {
             existingRower.setYearOfBirth(yearOfBirth);
         }
 
@@ -79,4 +85,34 @@ public class RowerService {
     public List<Rower> getAllRowersByYear(String yearOfBirth) {
         return rowerRepository.findAllByYearOfBirth(yearOfBirth);
     }
+
+    // Wrappers
+
+    public ResponseEntity<RowerResponseDto> addRowerAndReturnResponse(Rower rower) {
+        return getRowerResponseDtoResponseEntity(addRower(rower));
+    }
+
+    public ResponseEntity<RowerResponseDto> getRowerByIdAndReturnResponse(Long id) {
+        return getRowerResponseDtoResponseEntity(getRowerById(id));
+    }
+
+    public ResponseEntity<RowerResponseDto> updateRowerAndReturnResponse(Long id, Rower rower) {
+        return getRowerResponseDtoResponseEntity(updateRower(id, rower));
+    }
+
+    public ResponseEntity<List<RowerResponseDto>> getAllRowersAndReturnResponse() {
+        return getListResponseEntity(getAllRowers());
+    }
+
+    public ResponseEntity<List<RowerResponseDto>> getAllRowersByBirthYearAndReturnResponse(String yearOfBirth) {
+        return getListResponseEntity(getAllRowersByYear(yearOfBirth));
+    }
+
+    public ResponseEntity<String> deleteRowerByIdAndReturnResponse(Long id) {
+        return handleDeletion(
+                () -> deleteRower(id),
+                id.toString(),
+                ErrorConstants.ERROR_ROWER_WITH_IDENTIFIER_ID);
+    }
+
 }

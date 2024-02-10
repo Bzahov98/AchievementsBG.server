@@ -2,6 +2,8 @@ package com.bg.bzahov.achievementsBG.constants;
 
 public class ErrorConstants {
     public static final String ERROR_USERNAME_IS_TAKEN = "Username is taken!";
+    public static final String ERROR_USERNAME_NOT_FOUND = "Username not found";
+
     public static final String ERROR_USER_NOT_FOUND = "User not found!";
     public static final String ERROR_INCORRECT_OLD_PASSWORD = "Old password is incorrect";
 

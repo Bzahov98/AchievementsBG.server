@@ -2,7 +2,8 @@ package com.bg.bzahov.achievementsBG.security;
 
 import com.bg.bzahov.achievementsBG.security.jwt.JWTAuthFilter;
 import com.bg.bzahov.achievementsBG.security.jwt.JwtAuthEntryPoint;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.bg.bzahov.achievementsBG.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,15 +19,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig {
     private JwtAuthEntryPoint authEntryPoint;
-    private CustomUserDetailsService userDetailsService;
-
-    @Autowired
-    public SecurityConfig(CustomUserDetailsService userDetailsService, JwtAuthEntryPoint authEntryPoint) {
-        this.userDetailsService = userDetailsService;
-        this.authEntryPoint = authEntryPoint;
-    }
+    private UserService userDetailsService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
