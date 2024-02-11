@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.ERROR_USERNAME_NOT_FOUND;
-import static com.bg.bzahov.achievementsBG.utils.ControllersUtils.mapAndConvertEntityToDto;
+import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.mapAndConvertEntityToDto;
 
 @Service
 @AllArgsConstructor

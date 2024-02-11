@@ -27,7 +27,7 @@ import java.util.UUID;
 
 import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.*;
 import static com.bg.bzahov.achievementsBG.constants.SecurityConstants.DEFAULT_ROLE_USER;
-import static com.bg.bzahov.achievementsBG.utils.ControllersUtils.mapAndConvertEntityToDto;
+import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.mapAndConvertEntityToDto;
 
 @Service
 @AllArgsConstructor
@@ -54,9 +54,9 @@ public class AuthServiceImpl implements IAuthService {
             Role roles = optionalRole.get();
             user.setRoles(Collections.singletonList(roles));
         } else {
-            // Handle the case when the role is not found
+            // Handle the case when the role is not found and set default role
             Optional<Role> userDefaultRole = roleRepository.findByName(DEFAULT_ROLE_USER);
-            user.setRoles(List.of(userDefaultRole.get())); // set default role
+            user.setRoles(List.of(userDefaultRole.get()));
         }
         return userRepository.save(user);
     }
@@ -65,7 +65,8 @@ public class AuthServiceImpl implements IAuthService {
     public AuthResponseDto login(LoginDto loginDto) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginDto.getUsername(),
-                loginDto.getPassword());
+                loginDto.getPassword()
+        );
 
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 

@@ -16,7 +16,7 @@ import java.util.List;
 
 import static com.bg.bzahov.achievementsBG.constants.StringConstants.ALREADY_EXISTS;
 import static com.bg.bzahov.achievementsBG.constants.StringConstants.A_ROWER_WITH_NAME;
-import static com.bg.bzahov.achievementsBG.utils.ControllersUtils.handleDeletion;
+import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.handleDeletion;
 import static com.bg.bzahov.achievementsBG.utils.ModelUtils.getListResponseEntity;
 import static com.bg.bzahov.achievementsBG.utils.ModelUtils.getRowerResponseDtoResponseEntity;
 

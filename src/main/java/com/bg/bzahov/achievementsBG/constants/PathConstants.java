@@ -14,6 +14,9 @@ public class PathConstants {
     // Rower paths
     public static final String PATH_ROWERS = "rowers";
 
+    // Path for rowers' id cards
+    public static final String PATH_ROWERS_ID_CARDS = "rowers/id_cards";
+
     // User paths
     public static final String PATH_USERS = "users";
 }

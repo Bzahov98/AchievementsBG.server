@@ -10,15 +10,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.bg.bzahov.achievementsBG.constants.PathConstants.BASE_URL;
+import static com.bg.bzahov.achievementsBG.constants.PathConstants.PATH_ROWERS_ID_CARDS;
 import static com.bg.bzahov.achievementsBG.constants.StringConstants.IDENTIFIER_ROWER_ID_CARD;
-import static com.bg.bzahov.achievementsBG.utils.ControllersUtils.handleDeletion;
+import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.handleDeletion;
 
 /**
  * RowerIDCardController is a REST controller that provides endpoints for managing RowerIDCard entities.
  * It uses the RowerIDCardService to perform operations on the RowerIDCard entities.
  */
 @RestController
-@RequestMapping(BASE_URL + "rowers/id_cards")
+@RequestMapping(BASE_URL + PATH_ROWERS_ID_CARDS)
 @AllArgsConstructor
 //@PreAuthorize("hasAuthority('ADMIN') or true")
 public class RowerIDCardController {
@@ -27,8 +28,7 @@ public class RowerIDCardController {
 
     @GetMapping("")
     public List<RowerIDCardDto> getAllRowerIDCards() {
-        List<RowerIDCard> allRowerIDCards = rowerIDCardService.getAllRowerIDCards();
-        return allRowerIDCards.stream().map(RowerIDCardDto::fromRowerIDCard).toList();
+        return rowerIDCardService.getAllRowerIDCardsDto();
     }
 
     /**
@@ -38,9 +38,8 @@ public class RowerIDCardController {
      * @return A list of RowerIDCardDto objects.
      */
     @GetMapping("/{rowerID}")
-    public List<RowerIDCardDto> getAllRowerIDCardsByRower(@PathVariable Long rowerID/*, @RequestBody RowerIDCard rowerIDCard*/) {
-        List<RowerIDCard> allRowerIDCardForRowerID = rowerIDCardService.getAllRowerIDCardForRowerID(rowerID);
-        return allRowerIDCardForRowerID.stream().map(RowerIDCardDto::fromRowerIDCard).toList();
+    public List<RowerIDCardDto> getAllRowerIDCardsByRower(@PathVariable Long rowerID) {
+        return rowerIDCardService.getAllRowerIDCardsByRowerDto(rowerID);
     }
 
     /**
@@ -52,9 +51,7 @@ public class RowerIDCardController {
      */
     @PostMapping("")
     public RowerIDCardDto createRowerIDCard(@RequestParam() Long rowerID, @RequestBody RowerIDCard rowerIDCard) {
-        return RowerIDCardDto.fromRowerIDCard(
-                rowerIDCardService.createRowerIDCard(rowerID, rowerIDCard)
-        );
+        return rowerIDCardService.createRowerIDCardDto(rowerID, rowerIDCard);
     }
 
     // Update rowerIDCard by cardNumber
@@ -68,9 +65,7 @@ public class RowerIDCardController {
      */
     @PutMapping("/update")
     public RowerIDCardDto updateRowerIDCard(@RequestParam String cardNumber, @RequestParam String newCardNumber) {
-        return RowerIDCardDto.fromRowerIDCard(
-                rowerIDCardService.updateRowerIDCardByCardNumber(cardNumber, newCardNumber)
-        );
+        return rowerIDCardService.updateRowerIDCardDto(cardNumber, newCardNumber);
     }
 
     /**
@@ -98,4 +93,7 @@ public class RowerIDCardController {
                 IDENTIFIER_ROWER_ID_CARD
         );
     }
+
+    //
+
 }

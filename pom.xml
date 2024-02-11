@@ -17,7 +17,8 @@
 	<properties>
 		<java.version>17</java.version>
 		<kotlin.version>1.9.22</kotlin.version>
-	</properties>
+        <kotlin.code.style>official</kotlin.code.style>
+    </properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -135,5 +136,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

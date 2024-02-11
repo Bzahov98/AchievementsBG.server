@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-import static com.bg.bzahov.achievementsBG.utils.ControllersUtils.mapAndConvertEntityToDto;
+import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.mapAndConvertEntityToDto;
 
 @Data
 @Builder

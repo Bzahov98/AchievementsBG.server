@@ -30,4 +30,5 @@ public class ModelUtils {
                 .toList();
         return new ResponseEntity<>(rowerResponseDtoList, HttpStatus.OK);
     }
+
 }
