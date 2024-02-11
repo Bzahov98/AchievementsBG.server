@@ -11,7 +11,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = GenderValidator.class)
 public @interface ValidGender {
-    String message() default "Invalid gender value";
+
+    String INVALID_GENDER_VALUE = "Invalid gender value";
+
+    String message() default INVALID_GENDER_VALUE;
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

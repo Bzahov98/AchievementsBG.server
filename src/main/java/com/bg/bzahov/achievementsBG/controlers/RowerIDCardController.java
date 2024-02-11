@@ -11,8 +11,6 @@ import java.util.List;
 
 import static com.bg.bzahov.achievementsBG.constants.PathConstants.BASE_URL;
 import static com.bg.bzahov.achievementsBG.constants.PathConstants.PATH_ROWERS_ID_CARDS;
-import static com.bg.bzahov.achievementsBG.constants.StringConstants.IDENTIFIER_ROWER_ID_CARD;
-import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.handleDeletion;
 
 /**
  * RowerIDCardController is a REST controller that provides endpoints for managing RowerIDCard entities.
@@ -76,7 +74,7 @@ public class RowerIDCardController {
      */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteRowerIDCardById(@PathVariable Long id) {
-        return handleDeletion(() -> rowerIDCardService.deleteRowerIDCard(id), id.toString(), IDENTIFIER_ROWER_ID_CARD);
+        return rowerIDCardService.deleteRowerIDCard(id);//, id.toString(), IDENTIFIER_ROWER_ID_CARD);
     }
 
     /**
@@ -87,13 +85,6 @@ public class RowerIDCardController {
      */
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteRowerIDCardByCardNumber(@RequestParam String cardNumber) {
-        return handleDeletion(
-                () -> rowerIDCardService.deleteRowerIDCard(cardNumber),
-                cardNumber,
-                IDENTIFIER_ROWER_ID_CARD
-        );
+        return rowerIDCardService.deleteRowerIDCard(cardNumber);
     }
-
-    //
-
 }

@@ -8,5 +8,6 @@ import java.util.Date;
 public class ErrorObject {
     private Integer statusCode;
     private String message;
+    private String request;
     private Date timestamp;
 }

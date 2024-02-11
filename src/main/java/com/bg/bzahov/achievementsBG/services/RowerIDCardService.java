@@ -9,13 +9,15 @@ import com.bg.bzahov.achievementsBG.model.RowerIDCard;
 import com.bg.bzahov.achievementsBG.repositories.RowerIDCardRepository;
 import com.bg.bzahov.achievementsBG.repositories.RowerRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.ERROR_CARD_NUMBER_IS_INVALID;
-import static com.bg.bzahov.achievementsBG.constants.StringConstants.ROWER_ID;
+import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.*;
+import static com.bg.bzahov.achievementsBG.constants.StringConstants.*;
+import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.handleDeletion;
 import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.mapAndConvertEntityToDto;
 
 @AllArgsConstructor
@@ -36,7 +38,9 @@ public class RowerIDCardService {
         // Check if a RowerIDCard with the same card_number already exists
         Optional<RowerIDCard> existingCard = rowerIDCardRepository.findByCardNumber(rowerIDCard.getCardNumber());
         if (existingCard.isPresent()) {
-            throw new ValidationFailedException("A RowerIDCard with card_number " + rowerIDCard.getCardNumber() + " already exists.");
+            throw new ValidationFailedException(
+                    ERROR_ROWER_ID_CARD_INVALID_CARD_NUMBER + rowerIDCard.getCardNumber() + ERROR_ALREADY_EXISTS_EXTENSIONS
+            );
         }
 
         rower.getRowerIDCards().removeIf(card -> card.getCardNumber() == null || card.getCardNumber()
@@ -50,13 +54,13 @@ public class RowerIDCardService {
     public RowerIDCard getRowerIDCardById(Long id) {
         return rowerIDCardRepository.findById(id)
                 .orElseThrow(
-                        () -> new RowerIDCardNotFoundException("Id Card: " + id)
+                        () -> new RowerIDCardNotFoundException(PARAM_ID_CARD + id)
                 );
     }
 
     private RowerIDCard getRowerIDCardByCardNumb(String cardNumber) {
         return rowerIDCardRepository.findByCardNumber(cardNumber)
-                .orElseThrow(() -> new RowerIDCardNotFoundException("CardNumber: " + cardNumber));
+                .orElseThrow(() -> new RowerIDCardNotFoundException(CARD_NUMBER + cardNumber));
     }
 
     public List<RowerIDCard> getAllRowerIDCardForRowerID(Long rowerId) {
@@ -64,7 +68,7 @@ public class RowerIDCardService {
         getRowerOrThrowException(rowerId);
 
         return rowerIDCardRepository.findAllByRowerId(rowerId)
-                .orElseThrow(() -> new RowerIDCardNotFoundException("RowerID: " + rowerId));
+                .orElseThrow(() -> new RowerIDCardNotFoundException(PARAM_ROWER_ID + rowerId));
     }
 
     public RowerIDCard updateRowerIDCard(Long id, RowerIDCard rowerIDCard) {
@@ -80,19 +84,27 @@ public class RowerIDCardService {
         if (newCardNumber != null && !newCardNumber.trim().isEmpty()) {
             existingRowerIDCard.setCardNumber(newCardNumber);
         } else {
-            throw new ValidationFailedException(ERROR_CARD_NUMBER_IS_INVALID);
+            throw new ValidationFailedException(ERROR_NEW_CARD_NUMBER_IS_INVALID);
         }
         return rowerIDCardRepository.save(existingRowerIDCard);
     }
 
-    public void deleteRowerIDCard(Long id) {
+    public ResponseEntity<String> deleteRowerIDCard(Long id) {
         RowerIDCard rowerIDCard = getRowerIDCardById(id);
-        deleteRowerIdCardAndItsRelations(rowerIDCard);
+        return handleDeletion(
+                () -> deleteRowerIdCardAndItsRelations(rowerIDCard),
+                CARD_ID + id.toString(),
+                IDENTIFIER_ROWER_ID_CARD
+        );
     }
 
-    public void deleteRowerIDCard(String cardNumber) {
+    public ResponseEntity<String> deleteRowerIDCard(String cardNumber) {
         RowerIDCard rowerIDCard = getRowerIDCardByCardNumb(cardNumber);
-        deleteRowerIdCardAndItsRelations(rowerIDCard);
+        return handleDeletion(
+                () -> deleteRowerIdCardAndItsRelations(rowerIDCard),
+                CARD_NUMBER + cardNumber,
+                IDENTIFIER_ROWER_ID_CARD
+        );
     }
 
     private void deleteRowerIdCardAndItsRelations(RowerIDCard rowerIDCard) {
@@ -102,7 +114,7 @@ public class RowerIDCardService {
         rowerIDCardRepository.delete(rowerIDCard);
     }
 
-
+    // Dto's
     public List<RowerIDCardDto> getAllRowerIDCardsDto() {
         return mapAndConvertEntityToDto(getAllRowerIDCards(), RowerIDCardDto::fromRowerIDCard);
     }

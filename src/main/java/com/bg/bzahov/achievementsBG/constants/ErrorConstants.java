@@ -15,7 +15,12 @@ public class ErrorConstants {
     public static final String ERROR_YEAR_OF_BIRTH_RESTRICTION = "Year of birth must be valid";
     public static final String ERROR_ROWER_WITH_IDENTIFIER_ID = "Rower with identifier id: ";
 
-    public static final String ERROR_CARD_NUMBER_IS_INVALID = "New card number is empty or invalid!";
+    public static final String ERROR_NEW_CARD_NUMBER_IS_INVALID = "New card number is empty or invalid!";
     public static final String ERROR_DOES_NOT_EXIST = " DOES NOT EXIST!!";
 
+    public static final String ERROR_ROWER_ID_CARD_INVALID_CARD_NUMBER = "A RowerIDCard with card_number ";
+
+    public static final String ERROR_ALREADY_EXISTS_EXTENSIONS = " already exists.";
+
+    public static final String ERROR_CREDENTIALS_NOT_FOUND = "CredentialsNotFound: ";
 }
