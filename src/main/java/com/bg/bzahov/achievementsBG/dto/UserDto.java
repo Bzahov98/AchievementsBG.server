@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collections;
 import java.util.List;
 
 import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.mapAndConvertEntitiesToDto;
@@ -30,7 +31,7 @@ public class UserDto {
 
     public static UserDto fromUserEntityExtended(UserEntity userEntity) {
         RowerDto rowerDto = null;
-        List<String> roles = null;
+        List<String> roles = Collections.emptyList();
 
         Rower rower = userEntity.getRower();
         if (rower != null) {

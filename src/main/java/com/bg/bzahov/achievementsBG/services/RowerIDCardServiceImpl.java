@@ -8,6 +8,7 @@ import com.bg.bzahov.achievementsBG.model.Rower;
 import com.bg.bzahov.achievementsBG.model.RowerIDCard;
 import com.bg.bzahov.achievementsBG.repositories.RowerIDCardRepository;
 import com.bg.bzahov.achievementsBG.repositories.RowerRepository;
+import com.bg.bzahov.achievementsBG.services.base.RowerIDCardService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.mapAndConvertEnti
 @AllArgsConstructor
 
 @Service
-public class RowerIDCardService {
+public class RowerIDCardServiceImpl implements RowerIDCardService {
 
     private RowerIDCardRepository rowerIDCardRepository;
     private RowerRepository rowerRepository;
@@ -115,10 +116,12 @@ public class RowerIDCardService {
     }
 
     // Dto's
+    @Override
     public List<RowerIDCardDto> getAllRowerIDCardsDto() {
         return mapAndConvertEntitiesToDto(getAllRowerIDCards(), RowerIDCardDto::fromRowerIDCard);
     }
 
+    @Override
     public List<RowerIDCardDto> getAllRowerIDCardsByRowerDto(Long rowerID) {
 
         return mapAndConvertEntitiesToDto(
@@ -127,10 +130,12 @@ public class RowerIDCardService {
         );
     }
 
+    @Override
     public RowerIDCardDto createRowerIDCardDto(Long rowerID, RowerIDCard rowerIDCard) {
         return RowerIDCardDto.fromRowerIDCard(createRowerIDCard(rowerID, rowerIDCard));
     }
 
+    @Override
     public RowerIDCardDto updateRowerIDCardDto(String cardNumber, String newCardNumber) {
         RowerIDCard updatedCard = updateRowerIDCardByCardNumber(cardNumber, newCardNumber);
         return RowerIDCardDto.fromRowerIDCard(updatedCard);

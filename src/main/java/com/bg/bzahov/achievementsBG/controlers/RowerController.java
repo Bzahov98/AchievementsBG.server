@@ -2,8 +2,8 @@ package com.bg.bzahov.achievementsBG.controlers;
 
 import com.bg.bzahov.achievementsBG.dto.auth.response.RowerResponseDto;
 import com.bg.bzahov.achievementsBG.model.Rower;
-import com.bg.bzahov.achievementsBG.services.RowerIDCardService;
-import com.bg.bzahov.achievementsBG.services.RowerServiceImpl;
+import com.bg.bzahov.achievementsBG.services.base.RowerIDCardService;
+import com.bg.bzahov.achievementsBG.services.base.RowerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ import static com.bg.bzahov.achievementsBG.constants.PathConstants.*;
 //@PreAuthorize("hasAuthority('ADMIN') or true")
 public class RowerController {
 
-    private RowerServiceImpl rowerService;
+    private RowerService rowerService;
     private RowerIDCardService cardService;
 
     // Create Mappings

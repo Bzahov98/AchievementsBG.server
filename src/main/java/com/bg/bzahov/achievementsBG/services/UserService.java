@@ -28,7 +28,7 @@ public class UserService implements UserDetailsService {
 
     public List<UserDto> getAllUsers(boolean isDetailedData) {
         List<UserEntity> users = userRepository.findAll();
-        users.forEach(user -> user.getRoles().forEach(role -> role.getName()));
+//        users.forEach(user -> user.getRoles().forEach(role -> role.getName()));
         if (isDetailedData) {
             return mapAndConvertEntitiesToDto(users, UserDto::fromUserEntityExtended);
         } else {

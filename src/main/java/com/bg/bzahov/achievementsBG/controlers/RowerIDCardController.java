@@ -2,7 +2,7 @@ package com.bg.bzahov.achievementsBG.controlers;
 
 import com.bg.bzahov.achievementsBG.dto.RowerIDCardDto;
 import com.bg.bzahov.achievementsBG.model.RowerIDCard;
-import com.bg.bzahov.achievementsBG.services.RowerIDCardService;
+import com.bg.bzahov.achievementsBG.services.base.RowerIDCardService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

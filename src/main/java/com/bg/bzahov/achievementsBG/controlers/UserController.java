@@ -22,7 +22,7 @@ public class UserController {
 
     @GetMapping
     public List<UserDto> getAllUsers(
-            @RequestParam(required = false) boolean isDetailedData
+            @RequestParam(defaultValue = "true", required = false) boolean isDetailedData
     ) {
         return userService.getAllUsers(isDetailedData);
     }
