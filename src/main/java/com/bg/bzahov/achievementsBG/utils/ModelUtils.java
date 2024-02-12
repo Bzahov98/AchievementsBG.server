@@ -12,7 +12,7 @@ import java.util.List;
 import static com.bg.bzahov.achievementsBG.constants.StringConstants.ROWER_ID;
 
 public class ModelUtils {
-    // Rower Utils
+    // Rower StringUtils
     @NotNull
     public static ResponseEntity<RowerResponseDto> getRowerResponseDtoResponseEntity(Rower rower) {
         RowerResponseDto retrievedRower = RowerResponseDto.fromRower(rower);

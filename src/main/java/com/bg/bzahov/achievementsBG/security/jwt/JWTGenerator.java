@@ -13,10 +13,13 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 
+import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.ERROR_AUTHORIZATION_TOKEN_INVALID;
+
 @Component
 public class JWTGenerator {
     //private static final KeyPair keyPair = Keys.keyPairFor(SignatureAlgorithm.RS256);
-    private static final Key SECURITY_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    public static final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
+    private static final Key SECURITY_KEY = Keys.secretKeyFor(SIGNATURE_ALGORITHM);
 
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
@@ -27,10 +30,9 @@ public class JWTGenerator {
                 .setSubject(username)
                 .setIssuedAt(currentDate)
                 .setExpiration(expireDate)
-                .signWith(SECURITY_KEY, SignatureAlgorithm.HS512)
+                .signWith(SECURITY_KEY, SIGNATURE_ALGORITHM)
                 .compact();
-        System.out.println("New token :");
-        System.out.println(token);
+        printTokenIfDebug(token);
         return token;
     }
 
@@ -51,12 +53,23 @@ public class JWTGenerator {
                     .parseClaimsJws(token);
             return true;
         } catch (Exception ex) {
-            throw new AuthenticationCredentialsNotFoundException("Authorization token is EXPIRED or INCORRECT!", ex.fillInStackTrace());
+            throw new AuthenticationCredentialsNotFoundException(
+                    ERROR_AUTHORIZATION_TOKEN_INVALID,
+                    ex.fillInStackTrace()
+            );
         }
     }
 
     @NotNull
     private static Date getExpireDate(Date currentDate) {
         return new Date(currentDate.getTime() + SecurityConstants.JWT_EXPIRATION);
+    }
+    public static final boolean DEBUG = false;
+
+    private static void printTokenIfDebug(String token) {
+        if (DEBUG) {
+            System.out.println("New token :");
+            System.out.println(token);
+        }
     }
 }

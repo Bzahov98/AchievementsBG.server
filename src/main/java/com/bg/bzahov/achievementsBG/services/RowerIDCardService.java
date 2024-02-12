@@ -94,7 +94,7 @@ public class RowerIDCardService {
         return handleDeletion(
                 () -> deleteRowerIdCardAndItsRelations(rowerIDCard),
                 CARD_ID + id.toString(),
-                IDENTIFIER_ROWER_ID_CARD
+                ERROR_IDENTIFIER_ROWER_ID_CARD
         );
     }
 
@@ -103,7 +103,7 @@ public class RowerIDCardService {
         return handleDeletion(
                 () -> deleteRowerIdCardAndItsRelations(rowerIDCard),
                 CARD_NUMBER + cardNumber,
-                IDENTIFIER_ROWER_ID_CARD
+                ERROR_IDENTIFIER_ROWER_ID_CARD
         );
     }
 
@@ -136,7 +136,7 @@ public class RowerIDCardService {
         return RowerIDCardDto.fromRowerIDCard(updatedCard);
     }
 
-    // Utils
+    // StringUtils
     private Rower getRowerOrThrowException(Long rowerID) {
         return rowerRepository.findById(rowerID)
                 .orElseThrow(() -> new RowerNotFoundException(ROWER_ID + rowerID));

@@ -7,18 +7,19 @@ import com.bg.bzahov.achievementsBG.exceptions.ValidationFailedException;
 import com.bg.bzahov.achievementsBG.model.Rower;
 import com.bg.bzahov.achievementsBG.repositories.RowerIDCardRepository;
 import com.bg.bzahov.achievementsBG.repositories.RowerRepository;
-import com.bg.bzahov.achievementsBG.utils.Utils;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.bg.bzahov.achievementsBG.constants.StringConstants.ALREADY_EXISTS;
-import static com.bg.bzahov.achievementsBG.constants.StringConstants.A_ROWER_WITH_NAME;
-import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.handleDeletion;
+import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.ERROR_ALREADY_EXISTS_EXTENSIONS;
+import static com.bg.bzahov.achievementsBG.constants.StringConstants.ROWER_ID;
+import static com.bg.bzahov.achievementsBG.constants.StringConstants.ROWER_WITH_NAME;
 import static com.bg.bzahov.achievementsBG.utils.ModelUtils.getListResponseEntity;
 import static com.bg.bzahov.achievementsBG.utils.ModelUtils.getRowerResponseDtoResponseEntity;
+import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.handleDeletion;
+import static com.bg.bzahov.achievementsBG.utils.StringUtils.validateString;
 
 @AllArgsConstructor
 @Service
@@ -30,20 +31,20 @@ public class RowerService {
     public Rower addRower(Rower rower) {
         List<Rower> existingRower = rowerRepository.findAllByName(rower.getName());
         if (!existingRower.isEmpty()) {
-            throw new ValidationFailedException(A_ROWER_WITH_NAME + rower.getName() + ALREADY_EXISTS);
+            throw new ValidationFailedException(ROWER_WITH_NAME + rower.getName() + ERROR_ALREADY_EXISTS_EXTENSIONS);
         }
         return rowerRepository.save(rower);
     }
 
     public Rower getRowerById(Long id) {
         return rowerRepository.findById(id)
-                .orElseThrow(() -> new RowerNotFoundException("RowerID: " + id));
+                .orElseThrow(() -> new RowerNotFoundException(ROWER_ID + id));
     }
 
     public Rower updateRower(Long id, Rower rower) {
         Rower existingRower = getRowerById(id);
 
-        if (Utils.validateString(rower.getName())) {
+        if (validateString(rower.getName())) {
             existingRower.setName(rower.getName());
         }
 
@@ -66,7 +67,7 @@ public class RowerService {
 
     public void deleteRower(Long id) {
         if (!rowerRepository.existsById(id)) {
-            throw new RowerNotFoundException("RowerID: " + id);
+            throw new RowerNotFoundException(ROWER_ID + id);
         }
         Rower rower = getRowerById(id);
 

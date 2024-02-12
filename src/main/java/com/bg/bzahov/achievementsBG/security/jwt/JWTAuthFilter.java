@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static com.bg.bzahov.achievementsBG.constants.SecurityConstants.AUTH_TOKEN_TYPE_BEARER;
+import static com.bg.bzahov.achievementsBG.constants.SecurityConstants.HEADER_AUTHORIZATION;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -48,7 +49,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     }
 
     private String getJWTFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
+        String bearerToken = request.getHeader(HEADER_AUTHORIZATION);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(AUTH_TOKEN_TYPE_BEARER)) {
             return bearerToken.substring(7);
         }

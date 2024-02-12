@@ -74,7 +74,7 @@ public class RowerIDCardController {
      */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteRowerIDCardById(@PathVariable Long id) {
-        return rowerIDCardService.deleteRowerIDCard(id);//, id.toString(), IDENTIFIER_ROWER_ID_CARD);
+        return rowerIDCardService.deleteRowerIDCard(id);
     }
 
     /**
