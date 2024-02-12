@@ -18,7 +18,7 @@ import java.util.Optional;
 import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.*;
 import static com.bg.bzahov.achievementsBG.constants.StringConstants.*;
 import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.handleDeletion;
-import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.mapAndConvertEntityToDto;
+import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.mapAndConvertEntitiesToDto;
 
 @AllArgsConstructor
 
@@ -58,7 +58,7 @@ public class RowerIDCardService {
                 );
     }
 
-    private RowerIDCard getRowerIDCardByCardNumb(String cardNumber) {
+    public RowerIDCard getRowerIDCardByCardNumb(String cardNumber) {
         return rowerIDCardRepository.findByCardNumber(cardNumber)
                 .orElseThrow(() -> new RowerIDCardNotFoundException(CARD_NUMBER + cardNumber));
     }
@@ -116,12 +116,12 @@ public class RowerIDCardService {
 
     // Dto's
     public List<RowerIDCardDto> getAllRowerIDCardsDto() {
-        return mapAndConvertEntityToDto(getAllRowerIDCards(), RowerIDCardDto::fromRowerIDCard);
+        return mapAndConvertEntitiesToDto(getAllRowerIDCards(), RowerIDCardDto::fromRowerIDCard);
     }
 
     public List<RowerIDCardDto> getAllRowerIDCardsByRowerDto(Long rowerID) {
 
-        return mapAndConvertEntityToDto(
+        return mapAndConvertEntitiesToDto(
                 getAllRowerIDCardForRowerID(rowerID),
                 RowerIDCardDto::fromRowerIDCard
         );

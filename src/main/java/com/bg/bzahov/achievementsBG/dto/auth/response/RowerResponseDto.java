@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 import java.util.Collections;
 import java.util.List;
 
-import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.mapAndConvertEntityToDto;
+import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.mapAndConvertEntitiesToDto;
 
 @Data
 @NoArgsConstructor
@@ -32,7 +32,7 @@ public class RowerResponseDto {
         List<RowerIDCard> rowerIDCards = rower.getRowerIDCards();
         List<RowerIDCardDto> rowerIDCardDtos = Collections.emptyList();
         if (rowerIDCards != null) {
-            rowerIDCardDtos = mapAndConvertEntityToDto(rowerIDCards, RowerIDCardDto::fromRowerIDCard);
+            rowerIDCardDtos = mapAndConvertEntitiesToDto(rowerIDCards, RowerIDCardDto::fromRowerIDCard);
         }
 
         UserEntity user = rower.getUserOfRowerID();

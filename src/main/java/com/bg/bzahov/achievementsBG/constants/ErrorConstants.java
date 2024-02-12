@@ -24,4 +24,5 @@ public class ErrorConstants {
     public static final String ERROR_NOT_FOUND_WITH_PROVIDED_DATA = " can't be found with data you provided: ";
     public static final String ERROR_AUTHORIZATION_TOKEN_INVALID = "Authorization token is EXPIRED or INCORRECT!";
     public static final String ERROR_CREDENTIALS_NOT_FOUND = "CredentialsNotFound: ";
+
 }

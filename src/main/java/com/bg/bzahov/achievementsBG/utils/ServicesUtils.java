@@ -27,7 +27,7 @@ public class ServicesUtils {
         }
     }
 
-    public static <Entity, Dto> List<Dto> mapAndConvertEntityToDto(
+    public static <Entity, Dto> List<Dto> mapAndConvertEntitiesToDto(
             List<Entity> entities,
             Function<Entity, Dto> converterFunc
     ) {

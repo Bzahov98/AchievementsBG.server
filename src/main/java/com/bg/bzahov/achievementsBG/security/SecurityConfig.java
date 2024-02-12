@@ -17,10 +17,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.bg.bzahov.achievementsBG.constants.SecurityConstants.*;
+
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfig {
+
     private JwtAuthEntryPoint authEntryPoint;
     private UserService userDetailsService;
 
@@ -35,10 +38,9 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-//                .antMatchers("/api/v1/**").permitAll()
-                .antMatchers("/api/v1/auth/**").permitAll()
-                .antMatchers("/api/v1/auth/roles").authenticated()
-                .antMatchers("/api/v1/rowers/**").authenticated()
+                .antMatchers(SECURITY_PATH_AUTH_ALL).permitAll()
+                .antMatchers(SECURITY_PATH_ROLES).authenticated()
+                .antMatchers(SECURITY_PATH_ROWERS_ALL).authenticated()
                 .and()
                 .httpBasic();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

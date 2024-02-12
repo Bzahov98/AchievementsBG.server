@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.ERROR_USERNAME_NOT_FOUND;
-import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.mapAndConvertEntityToDto;
+import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.mapAndConvertEntitiesToDto;
 
 @Service
 @AllArgsConstructor
@@ -28,11 +28,11 @@ public class UserService implements UserDetailsService {
 
     public List<UserDto> getAllUsers(boolean isDetailedData) {
         List<UserEntity> users = userRepository.findAll();
-
+        users.forEach(user -> user.getRoles().forEach(role -> role.getName()));
         if (isDetailedData) {
-            return mapAndConvertEntityToDto(users, UserDto::fromUserEntityExtended);
+            return mapAndConvertEntitiesToDto(users, UserDto::fromUserEntityExtended);
         } else {
-            return mapAndConvertEntityToDto(users, UserDto::fromUserEntity);
+            return mapAndConvertEntitiesToDto(users, UserDto::fromUserEntity);
         }
     }
 

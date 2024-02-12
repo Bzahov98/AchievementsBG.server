@@ -10,8 +10,10 @@ import com.bg.bzahov.achievementsBG.model.UserEntity;
 import com.bg.bzahov.achievementsBG.repositories.RoleRepository;
 import com.bg.bzahov.achievementsBG.repositories.UserRepository;
 import com.bg.bzahov.achievementsBG.security.jwt.JWTGenerator;
-import com.bg.bzahov.achievementsBG.services.base.IAuthService;
+import com.bg.bzahov.achievementsBG.services.base.AuthService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,11 +29,12 @@ import java.util.UUID;
 
 import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.*;
 import static com.bg.bzahov.achievementsBG.constants.SecurityConstants.DEFAULT_ROLE_USER;
-import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.mapAndConvertEntityToDto;
+import static com.bg.bzahov.achievementsBG.constants.StringConstants.USER_REGISTERED_SUCCESSFUL;
+import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.mapAndConvertEntitiesToDto;
 
 @Service
 @AllArgsConstructor
-public class AuthServiceImpl implements IAuthService {
+public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -40,7 +43,7 @@ public class AuthServiceImpl implements IAuthService {
     private final JWTGenerator jwtGenerator;
 
     @Override
-    public UserEntity register(RegisterDto registerDto) {
+    public ResponseEntity<String> register(RegisterDto registerDto) {
         if (userRepository.existsByUsername(registerDto.getUsername())) {
             throw new AuthenticationFailedException(ERROR_USERNAME_IS_TAKEN);
         }
@@ -58,11 +61,13 @@ public class AuthServiceImpl implements IAuthService {
             Optional<Role> userDefaultRole = roleRepository.findByName(DEFAULT_ROLE_USER);
             user.setRoles(List.of(userDefaultRole.get()));
         }
-        return userRepository.save(user);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(USER_REGISTERED_SUCCESSFUL);
     }
 
     @Override
-    public AuthResponseDto login(LoginDto loginDto) {
+    public ResponseEntity<AuthResponseDto> login(LoginDto loginDto) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginDto.getUsername(),
                 loginDto.getPassword()
@@ -72,13 +77,13 @@ public class AuthServiceImpl implements IAuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
-        return new AuthResponseDto(token);
+        return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
     }
 
 
     @Override
-    public List<RoleDto> findAllRoles() {
-        return mapAndConvertEntityToDto(roleRepository.findAll(), RoleDto::fromRole);
+    public ResponseEntity<List<RoleDto>> findAllRoles() {
+        return ResponseEntity.ok(mapAndConvertEntitiesToDto(roleRepository.findAll(), RoleDto::fromRole));
     }
 
     // TODO: 3/29/2021 implement change password
@@ -102,7 +107,6 @@ public class AuthServiceImpl implements IAuthService {
         String tempPassword = UUID.randomUUID().toString();
         user.setPassword(passwordEncoder.encode(tempPassword));
         userRepository.save(user);
-        // send tempPassword to user's email
     }
 
     // TODO: 3/29/2021 implement update user details
@@ -112,7 +116,7 @@ public class AuthServiceImpl implements IAuthService {
 
         user.setUsername(userDetails.getUsername());
         user.setRoles(userDetails.getRoles());
-        // update other fields as necessary
+
         userRepository.save(user);
     }
 
@@ -123,6 +127,7 @@ public class AuthServiceImpl implements IAuthService {
         userRepository.delete(user);
     }
 
+    // Utility methods
     private UserEntity getUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(ERROR_USER_NOT_FOUND));

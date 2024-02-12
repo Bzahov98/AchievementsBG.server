@@ -19,4 +19,9 @@ public class PathConstants {
 
     // User paths
     public static final String PATH_USERS = "users";
+
+    public static final String PATH_VAR_ID = "id";
+    public static final String PATH_VARIABLE_ID = "{id}";
+    public static final String PATH_VARIABLE_YEAR_OF_BIRTH = "{yearOfBirth}";
+
 }

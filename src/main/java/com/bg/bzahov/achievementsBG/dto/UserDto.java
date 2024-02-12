@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.mapAndConvertEntityToDto;
+import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.mapAndConvertEntitiesToDto;
 
 @Data
 @Builder
@@ -38,7 +38,7 @@ public class UserDto {
         }
 
         if (userEntity.getRoles() != null) {
-            roles = mapAndConvertEntityToDto(userEntity.getRoles(), Role::getName);
+            roles = mapAndConvertEntitiesToDto(userEntity.getRoles(), Role::getName);
         }
 
         return UserDto.builder()

@@ -114,6 +114,16 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(errorObject, BAD_REQUEST);
     }
+    @ExceptionHandler(AuthenticationFailedException.class)
+    public ResponseEntity<ErrorObject> handleAuthenticationFailedException(
+            AuthenticationFailedException ex,
+            WebRequest request
+    ) {
+        ErrorObject errorObject = createErrorObject(
+                BAD_REQUEST, ex.getMessage(), request
+        );
+        return new ResponseEntity<>(errorObject, BAD_REQUEST);
+    }
 
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<ErrorObject> handleIllegalStateExceptionException(

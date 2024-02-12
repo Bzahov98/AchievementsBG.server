@@ -7,14 +7,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.ERROR_YEAR_OF_BIRTH_RESTRICTION;
+
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = YearOfBirthValidator.class)
 public @interface ValidYearOfBirth {
+    String message() default ERROR_YEAR_OF_BIRTH_RESTRICTION;
 
-    String ERROR_INVALID_YEAR_OF_BIRTH = "Invalid year of birth";
-
-    String message() default ERROR_INVALID_YEAR_OF_BIRTH;
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

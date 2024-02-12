@@ -7,6 +7,7 @@ import com.bg.bzahov.achievementsBG.exceptions.ValidationFailedException;
 import com.bg.bzahov.achievementsBG.model.Rower;
 import com.bg.bzahov.achievementsBG.repositories.RowerIDCardRepository;
 import com.bg.bzahov.achievementsBG.repositories.RowerRepository;
+import com.bg.bzahov.achievementsBG.services.base.RowerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ import static com.bg.bzahov.achievementsBG.utils.StringUtils.validateString;
 
 @AllArgsConstructor
 @Service
-public class RowerService {
+public class RowerServiceImpl implements RowerService {
 
     private final RowerRepository rowerRepository;
     private final RowerIDCardRepository rowerIDCardRepository;
@@ -89,22 +90,27 @@ public class RowerService {
 
     // Wrappers
 
+    @Override
     public ResponseEntity<RowerResponseDto> addRowerAndReturnResponse(Rower rower) {
         return getRowerResponseDtoResponseEntity(addRower(rower));
     }
 
+    @Override
     public ResponseEntity<RowerResponseDto> getRowerByIdAndReturnResponse(Long id) {
         return getRowerResponseDtoResponseEntity(getRowerById(id));
     }
 
+    @Override
     public ResponseEntity<RowerResponseDto> updateRowerAndReturnResponse(Long id, Rower rower) {
         return getRowerResponseDtoResponseEntity(updateRower(id, rower));
     }
 
+    @Override
     public ResponseEntity<List<RowerResponseDto>> getAllRowersAndReturnResponse() {
         return getListResponseEntity(getAllRowers());
     }
 
+    @Override
     public ResponseEntity<List<RowerResponseDto>> getAllRowersByBirthYearAndReturnResponse(String yearOfBirth) {
         return getListResponseEntity(getAllRowersByYear(yearOfBirth));
     }
