@@ -3,6 +3,15 @@ package com.bg.bzahov.achievementsBG.constants;
 public class ErrorConstants {
     public static final String ERROR_USERNAME_IS_TAKEN = "Username is taken!";
     public static final String ERROR_USERNAME_NOT_FOUND = "Username not found";
+    public static final String ERROR_USERNAME_INVALID =
+            "Username must contain only letters, digits and underscores, and be between 5 and 20 characters long.";
+    public static final String ERROR_USERNAME_MUST_NOT_BE_BLANK = "Username must not be blank";
+    public static final String ERROR_PASSWORD_INVALID =
+            "Password must contain letters, digits and special symbols( @$!%*#?& ), and must be between 5 and 20 characters long.";
+   public static final String ERROR_PASSWORD_LENGTH =
+            "Password must be between 5 and 25 characters long.";
+
+    public static final String ERROR_PASSWORD_MUST_NOT_BE_BLANK = "Password must not be blank";
     public static final String ERROR_USER_ALREADY_EXISTS = "User already exists!";
     public static final String ERROR_USER_NOT_FOUND = "User not found!";
     public static final String ERROR_INCORRECT_OLD_PASSWORD = "Old password is incorrect";

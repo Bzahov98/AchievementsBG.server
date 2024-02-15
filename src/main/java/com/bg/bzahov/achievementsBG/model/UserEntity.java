@@ -7,8 +7,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.*;
+import static com.bg.bzahov.achievementsBG.constants.RegexPatterns.PATTERN_USERNAME;
 
 @Entity
 @Table(name = "users")
@@ -20,9 +24,10 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Username must not be blank")
+    @Pattern(message = ERROR_USERNAME_INVALID, regexp = PATTERN_USERNAME)
     private String username;
-    @NotBlank(message = "Password must not be blank")
+
+    @NotBlank(message = ERROR_PASSWORD_MUST_NOT_BE_BLANK)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

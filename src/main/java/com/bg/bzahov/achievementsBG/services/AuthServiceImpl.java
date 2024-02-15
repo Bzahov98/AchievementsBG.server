@@ -28,6 +28,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.bg.bzahov.achievementsBG.constants.ErrorConstants.*;
+import static com.bg.bzahov.achievementsBG.constants.RegexPatterns.PATTERN_PASSWORD;
 import static com.bg.bzahov.achievementsBG.constants.SecurityConstants.DEFAULT_ROLE_USER;
 import static com.bg.bzahov.achievementsBG.constants.StringConstants.USER_REGISTERED_SUCCESSFUL;
 import static com.bg.bzahov.achievementsBG.utils.ServicesUtils.mapAndConvertEntitiesToDto;
@@ -47,6 +48,9 @@ public class AuthServiceImpl implements AuthService {
         if (userRepository.existsByUsername(registerDto.getUsername())) {
             throw new AuthenticationFailedException(ERROR_USERNAME_IS_TAKEN);
         }
+        if (!registerDto.getPassword().matches(PATTERN_PASSWORD)) {
+            throw new AuthenticationFailedException(ERROR_PASSWORD_INVALID);
+        }
 
         UserEntity user = new UserEntity();
         user.setUsername(registerDto.getUsername());
@@ -63,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
         }
         userRepository.save(user);
 
-        return ResponseEntity.ok(USER_REGISTERED_SUCCESSFUL);
+        return ResponseEntity.ok(USER_REGISTERED_SUCCESSFUL + user.getUsername());
     }
 
     @Override
@@ -86,7 +90,7 @@ public class AuthServiceImpl implements AuthService {
         return ResponseEntity.ok(mapAndConvertEntitiesToDto(roleRepository.findAll(), RoleDto::fromRole));
     }
 
-    // TODO: 3/29/2021 implement change password
+    // TODO: implement change password in controller
     @Override
     public void changePassword(String username, String oldPassword, String newPassword) {
         UserEntity user = getUserByUsername(username);
@@ -99,7 +103,7 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    // TODO: 3/29/2021 implement reset password
+    // TODO: implement reset password
     @Override
     public void resetPassword(String username) {
         UserEntity user = getUserByUsername(username);
@@ -109,7 +113,7 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(user);
     }
 
-    // TODO: 3/29/2021 implement update user details
+    // TODO: implement update user details
     @Override
     public void updateUserDetails(String username, UserEntity userDetails) {
         UserEntity user = getUserByUsername(username);
@@ -120,7 +124,7 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(user);
     }
 
-    // TODO: 3/29/2021 implement delete user
+    // TODO: implement delete user in controller
     @Override
     public void deleteUser(String username) {
         UserEntity user = getUserByUsername(username);

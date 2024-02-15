@@ -47,16 +47,9 @@ public class Rower {
     @Column(nullable = true)
     private Integer yearOfBirth;
 
-//    @OneToMany(mappedBy = "rowerID", cascade = CascadeType.REMOVE)
-//    private List<RowerIDCard> rowerIDCards = new ArrayList<>();
-
     @OneToMany(mappedBy = "rower", cascade = CascadeType.REMOVE)
     @JsonIgnore // Add this annotation to break the circular reference
     private List<RowerIDCard> rowerIDCards;
-
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "userID")
-//    private UserEntity userID;
 
     @OneToOne
     @JoinColumn(name = "userOfRowerID")

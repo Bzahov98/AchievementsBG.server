@@ -4,6 +4,9 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.Calendar;
 
 public class YearOfBirthValidator implements ConstraintValidator<ValidYearOfBirth, Integer> {
+
+    public static final int MAX_YEARS = 100;
+
     @Override
     public void initialize(ValidYearOfBirth constraintAnnotation) {
     }
@@ -15,6 +18,6 @@ public class YearOfBirthValidator implements ConstraintValidator<ValidYearOfBirt
     }
 
     private static boolean isAgeValid(Integer yearOfBirth, int currentYear) {
-        return currentYear - yearOfBirth < 100;
+        return currentYear - yearOfBirth < MAX_YEARS && currentYear - yearOfBirth > 0;
     }
 }
