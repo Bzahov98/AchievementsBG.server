@@ -15,7 +15,7 @@ public interface RowerRepository extends JpaRepository<Rower, Long> {
     Optional<Rower> findByName(String name);
     void deleteById(Long id);
 
-    List<Rower> findAllByYearOfBirth(String yearOfBirth);
+    List<Rower> findAllByYearOfBirth(Integer yearOfBirth);
     List<Rower> findAllByName(String yearOfBirth);
 
 }

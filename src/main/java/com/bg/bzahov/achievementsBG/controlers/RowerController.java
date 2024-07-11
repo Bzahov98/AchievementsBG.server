@@ -39,7 +39,7 @@ public class RowerController {
     }
 
     @GetMapping("/byYearOfBirth/" + PATH_VARIABLE_YEAR_OF_BIRTH)
-    public ResponseEntity<List<RowerResponseDto>> getAllRowersByYearOfBirth(@PathVariable String yearOfBirth) {
+    public ResponseEntity<List<RowerResponseDto>> getAllRowersByYearOfBirth(@PathVariable Integer yearOfBirth) {
         return rowerService.getAllRowersByBirthYearAndReturnResponse(yearOfBirth);
     }
 

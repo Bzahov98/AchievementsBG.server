@@ -15,7 +15,7 @@ public interface RowerService {
 
     ResponseEntity<List<RowerResponseDto>> getAllRowersAndReturnResponse();
 
-    ResponseEntity<List<RowerResponseDto>> getAllRowersByBirthYearAndReturnResponse(String yearOfBirth);
+    ResponseEntity<List<RowerResponseDto>> getAllRowersByBirthYearAndReturnResponse(Integer yearOfBirth);
 
     ResponseEntity<String> deleteRowerByIdAndReturnResponse(Long id);
 }

@@ -84,7 +84,7 @@ public class RowerServiceImpl implements RowerService {
         return rowerRepository.findAll();
     }
 
-    public List<Rower> getAllRowersByYear(String yearOfBirth) {
+    public List<Rower> getAllRowersByYear(Integer yearOfBirth) {
         return rowerRepository.findAllByYearOfBirth(yearOfBirth);
     }
 
@@ -111,7 +111,7 @@ public class RowerServiceImpl implements RowerService {
     }
 
     @Override
-    public ResponseEntity<List<RowerResponseDto>> getAllRowersByBirthYearAndReturnResponse(String yearOfBirth) {
+    public ResponseEntity<List<RowerResponseDto>> getAllRowersByBirthYearAndReturnResponse(Integer yearOfBirth) {
         return getListResponseEntity(getAllRowersByYear(yearOfBirth));
     }
 
